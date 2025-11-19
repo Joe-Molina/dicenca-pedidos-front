@@ -1,7 +1,7 @@
 // axiosInstance.ts
 import axios from "axios";
 
-const baseURL = "http://localhost:3000";
+const baseURL = "http://10.10.4.159:3000";
 
 const axiosInstance = axios.create({
   baseURL: baseURL,
