@@ -14,6 +14,20 @@ const createZone = async (
   return data;
 };
 
+const editZone = async (
+  updatedZone: Partial<ZoneProps>
+): Promise<ZoneProps> => {
+  const data = (
+    await api.patch(`/zone/edit/${updatedZone.id}`, { updatedZone })
+  ).data;
+  return data;
+};
+
+const deleteZone = async (id: number): Promise<ZoneProps> => {
+  const data = (await api.delete(`/zone/delete/${id}`)).data;
+  return data;
+};
+
 export function useZonesQuery() {
   const queryClient = useQueryClient();
   const query = useQuery<ZoneProps[]>({
@@ -28,8 +42,19 @@ export function useZonesQuery() {
     mutationFn: createZone,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["zones"] }),
   });
+
+  const deleteZoneMutation = useMutation<ZoneProps, Error, number>({
+    mutationFn: deleteZone,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["zones"] }),
+  });
+  const editZoneMutation = useMutation<ZoneProps, Error, Partial<ZoneProps>>({
+    mutationFn: editZone,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["zones"] }),
+  });
   return {
     query,
     createZoneMutation,
+    deleteZoneMutation,
+    editZoneMutation,
   };
 }

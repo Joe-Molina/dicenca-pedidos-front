@@ -14,6 +14,20 @@ const createProduct = async (
   return data;
 };
 
+const editProduct = async (
+  updatedProduct: Partial<ProductProps>
+): Promise<ProductProps> => {
+  const data = (
+    await api.patch(`/product/edit/${updatedProduct.id}`, { updatedProduct })
+  ).data;
+  return data;
+};
+
+const deleteProduct = async (id: number): Promise<ProductProps> => {
+  const data = (await api.delete(`/product/delete/${id}`)).data;
+  return data;
+};
+
 export function useProductQuery() {
   const queryClient = useQueryClient();
 
@@ -31,8 +45,24 @@ export function useProductQuery() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["products"] }),
   });
 
+  const deleteProductMutation = useMutation<ProductProps, Error, number>({
+    mutationFn: deleteProduct,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["products"] }),
+  });
+
+  const editProductMutation = useMutation<
+    ProductProps,
+    Error,
+    Partial<ProductProps>
+  >({
+    mutationFn: editProduct,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["products"] }),
+  });
+
   return {
     query,
     createProductMutation,
+    deleteProductMutation,
+    editProductMutation,
   };
 }

@@ -14,6 +14,20 @@ const createSeller = async (
   return data;
 };
 
+const editSeller = async (
+  updatedSeller: Partial<SellerProps>
+): Promise<SellerProps> => {
+  const data = (
+    await api.patch(`/seller/edit/${updatedSeller.id}`, { updatedSeller })
+  ).data;
+  return data;
+};
+
+const deleteSeller = async (id: number): Promise<SellerProps> => {
+  const data = (await api.delete(`/seller/delete/${id}`)).data;
+  return data;
+};
+
 export function useSellersQuery() {
   const queryClient = useQueryClient();
   const query = useQuery<SellerProps[]>({
@@ -30,8 +44,23 @@ export function useSellersQuery() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["sellers"] }),
   });
 
+  const deleteSellerMutation = useMutation<SellerProps, Error, number>({
+    mutationFn: deleteSeller,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["sellers"] }),
+  });
+  const editSellerMutation = useMutation<
+    SellerProps,
+    Error,
+    Partial<SellerProps>
+  >({
+    mutationFn: editSeller,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["sellers"] }),
+  });
+
   return {
     query,
     createSellerMutation,
+    deleteSellerMutation,
+    editSellerMutation,
   };
 }

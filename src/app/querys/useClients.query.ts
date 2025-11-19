@@ -30,6 +30,11 @@ export function useClientsQuery() {
     queryFn: getAllClients,
   });
 
+  const deleteClient = async (id: number): Promise<ClientProps> => {
+    const data = (await api.delete(`/client/create/${id}`)).data;
+    return data;
+  };
+
   const createClientMutation = useMutation<
     ClientProps,
     Error,
@@ -48,9 +53,15 @@ export function useClientsQuery() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["clients"] }),
   });
 
+  const deleteClientMutation = useMutation<ClientProps, Error, number>({
+    mutationFn: deleteClient,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["clients"] }),
+  });
+
   return {
     query,
     createClientMutation,
     editClientMutation,
+    deleteClientMutation,
   };
 }
