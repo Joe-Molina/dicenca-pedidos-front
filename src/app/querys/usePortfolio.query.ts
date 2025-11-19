@@ -14,6 +14,22 @@ const createPortfolio = async ({
   return data;
 };
 
+const editPortfolio = async (
+  updatedPortfolio: Partial<PortFolioProps>
+): Promise<PortFolioProps> => {
+  const data = (
+    await api.patch(`/portfolio/edit/${updatedPortfolio.id}`, {
+      updatedPortfolio,
+    })
+  ).data;
+  return data;
+};
+
+const deletePortfolio = async (id: number): Promise<PortFolioProps> => {
+  const data = (await api.delete(`/portfolio/delete/${id}`)).data;
+  return data;
+};
+
 export function usePortfolioQuery() {
   const queryClient = useQueryClient();
 
@@ -32,8 +48,26 @@ export function usePortfolioQuery() {
       queryClient.invalidateQueries({ queryKey: ["portfolios"] }),
   });
 
+  const deletePortfolioMutation = useMutation<PortFolioProps, Error, number>({
+    mutationFn: deletePortfolio,
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["portfolios"] }),
+  });
+
+  const editPortfolioMutation = useMutation<
+    PortFolioProps,
+    Error,
+    Partial<PortFolioProps>
+  >({
+    mutationFn: editPortfolio,
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["portfolios"] }),
+  });
+
   return {
     query,
     createPortfolioMutation,
+    deletePortfolioMutation,
+    editPortfolioMutation,
   };
 }
