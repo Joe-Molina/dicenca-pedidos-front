@@ -18,7 +18,10 @@ interface ControladorStateProps {
   setZone: (zone: ZoneProps) => void;
   setClient: (client: ClientProps) => void;
   setOrderNote: (notes: string) => void;
-  addDetailToOrder: (detail: Omit<OrderDetailsProps, "id" | "orderId">) => void;
+  addDetailToOrder: (
+    detail: Omit<OrderDetailsProps, "id" | "orderId" | "price" | "gr" | "total">
+  ) => void;
+  deleteDetailFromOrder?: (index: number) => void;
 }
 
 // se una el metodo create para crear un nuevo estado global con zustand
@@ -54,12 +57,29 @@ export const useNewVentaStore = create<ControladorStateProps>((set) => ({
       } as CreateOrderProps,
     }));
   },
-  addDetailToOrder: (detail: Omit<OrderDetailsProps, "id" | "orderId">) => {
+  addDetailToOrder: (
+    detail: Omit<OrderDetailsProps, "id" | "orderId" | "price" | "gr" | "total">
+  ) => {
     set((state) => ({
       order: {
         ...state.order,
-        details: state.order ? [...state.order.details, detail] : [detail],
+        details: state.order?.details
+          ? [...state.order.details, detail]
+          : [detail],
       } as CreateOrderProps,
     }));
+  },
+  deleteDetailFromOrder: (index: number) => {
+    set((state) => {
+      if (!state.order) return state;
+      const newDetails = [...state.order.details];
+      newDetails.splice(index, 1);
+      return {
+        order: {
+          ...state.order,
+          details: newDetails,
+        } as CreateOrderProps,
+      };
+    });
   },
 }));

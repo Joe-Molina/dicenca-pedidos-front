@@ -1,7 +1,7 @@
 // axiosInstance.ts
 import axios from "axios";
 
-const baseURL = "http://10.10.4.159:3000";
+const baseURL = "https://api.dicenca.jodomodev.com";
 
 const axiosInstance = axios.create({
   baseURL: baseURL,
