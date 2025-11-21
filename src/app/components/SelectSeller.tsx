@@ -11,7 +11,11 @@ import { useSellersQuery } from "../querys/useSellers.query";
 import { useNewVentaStore } from "../store/controladorNewVenta.store";
 import { SpinnerGlobal } from "./SpinnerGlobal";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
+
 export function SelectSeller() {
+  const router = useRouter();
+
   const {
     query: { data: sellers, isLoading },
   } = useSellersQuery();
@@ -26,9 +30,10 @@ export function SelectSeller() {
     <div className='flex flex-col gap-1'>
       <Label>Vendedor:</Label>
       <Select
-        onValueChange={(value) =>
-          setSeller(sellers!.find((seller) => seller.id == Number(value))!)
-        }
+        onValueChange={(value) => {
+          setSeller(sellers!.find((s) => s.id.toString() === value)!);
+          router.push(`/sellers`);
+        }}
       >
         <SelectTrigger className='w-full bg-zinc-800'>
           <SelectValue placeholder='Selecciona un vendedor' />

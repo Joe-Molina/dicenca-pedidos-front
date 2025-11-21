@@ -86,7 +86,6 @@ export const useNewVentaStore = create<ControladorStateProps>((set) => ({
   },
   reset: () => {
     set({
-      seller: undefined,
       zone: undefined,
       client: undefined,
       order: undefined,
