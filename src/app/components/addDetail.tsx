@@ -22,7 +22,7 @@ export function AddDetailButton() {
 
   return (
     <Drawer>
-      <DrawerTrigger className='bg-neutral-900 border border-neutral-950 py-2 rounded-sm '>
+      <DrawerTrigger className='bg-neutral-100 text-black p-2 rounded-sm font-medium'>
         Agregar Producto
       </DrawerTrigger>
       <DrawerContent className='dark h-[400px]'>
@@ -44,9 +44,9 @@ export function AddDetailButton() {
             });
             resetData();
           }}
-          className='bg-neutral-800 py-2 rounded-sm hover:bg-neutral-900 flex justify-center items-center gap-2 w-60 mx-auto mt-4'
+          className='bg-neutral-50 py-2 rounded-sm hover:bg-neutral-900 flex justify-center items-center gap-2 w-60 mx-auto mt-4'
         >
-          <p className='text-white '>Agregar producto</p>
+          <p className=' font-semibold'>Agregar producto</p>
         </DrawerClose>
       </DrawerContent>
     </Drawer>

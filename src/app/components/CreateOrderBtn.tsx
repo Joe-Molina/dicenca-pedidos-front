@@ -33,7 +33,7 @@ export function CreateOrderBtn() {
   }
 
   return (
-    <Button className='bg-zinc-700' onClick={() => createOrder(order!)}>
+    <Button className='dark' onClick={() => createOrder(order!)}>
       realizar orden
     </Button>
   );

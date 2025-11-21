@@ -24,7 +24,7 @@ export function TotalSpan() {
   }
 
   return (
-    <div className='flex justify-end bg-zinc-800 p-2 rounded-sm font-bold text-lg'>
+    <div className='flex justify-end bg-neutral-950 border border-neutral-800 p-2 rounded-sm font-bold text-lg'>
       Total: {total} $
     </div>
   );

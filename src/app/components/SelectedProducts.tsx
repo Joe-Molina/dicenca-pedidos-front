@@ -25,7 +25,7 @@ export function SelectedProducts() {
               return (
                 <div
                   key={index}
-                  className='flex justify-between bg-neutral-700 p-2 rounded'
+                  className='flex justify-between bg-neutral-900 border border-neutral-800 p-2 rounded'
                 >
                   <span>{product.name}:</span>
                   <span>

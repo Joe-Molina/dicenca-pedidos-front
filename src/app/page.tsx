@@ -5,7 +5,7 @@ import { SelectSeller } from "./components/SelectSeller";
 
 export default function Home() {
   return (
-    <div className='flex h-full w-full flex-col gap-2 border-zinc-600 text-white p-8'>
+    <div className='flex h-full w-full flex-col gap-2  text-white p-8'>
       <SelectSeller />
     </div>
   );
