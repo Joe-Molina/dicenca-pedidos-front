@@ -11,7 +11,7 @@ export function SelectCantProduct() {
         <div className='flex gap-2 items-center'>
           <Input
             type='number'
-            className='w-12'
+            className='w-16'
             onChange={(e) => setProductQuantity(Number(e.target.value))}
           />
           <span>x$</span>

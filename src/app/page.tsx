@@ -10,7 +10,7 @@ import { useNewVentaStore } from "./store/controladorNewVenta.store";
 import { Label } from "@/components/ui/label";
 import { SelectedProducts } from "./components/SelectedProducts";
 import { TotalSpan } from "./components/TotalSpan";
-import { Button } from "@/components/ui/button";
+import { CreateOrderBtn } from "./components/CreateOrderBtn";
 
 export default function Home() {
   const { seller, zone, client, order, setOrderNote } = useNewVentaStore();
@@ -27,11 +27,11 @@ export default function Home() {
           <Input type='text' onChange={(e) => setOrderNote(e.target.value)} />
         </div>
       )}
-      {order?.details && <SelectedProducts />}
-      {order?.details && <TotalSpan />}
-      <Button className='bg-zinc-700' onClick={}>
-        realizar orden
-      </Button>
+      {order && order.details && order.details.length > 0 && (
+        <SelectedProducts />
+      )}
+      {order && order.details && order.details.length > 0 && <TotalSpan />}
+      {order && order.details && order.details.length > 0 && <CreateOrderBtn />}
     </div>
   );
 }

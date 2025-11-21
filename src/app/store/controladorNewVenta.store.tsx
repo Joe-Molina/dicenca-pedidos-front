@@ -13,7 +13,8 @@ interface ControladorStateProps {
   seller: SellerProps | undefined;
   zone: ZoneProps | undefined;
   client: ClientProps | undefined;
-  order: CreateOrderProps | undefined;
+  order: CreateOrderProps;
+  reset: () => void;
   setSeller: (seller: SellerProps) => void;
   setZone: (zone: ZoneProps) => void;
   setClient: (client: ClientProps) => void;
@@ -30,7 +31,11 @@ export const useNewVentaStore = create<ControladorStateProps>((set) => ({
   seller: undefined,
   zone: undefined,
   client: undefined,
-  order: undefined,
+  order: {
+    clientId: 0,
+    notes: "",
+    details: [],
+  },
   setSeller: (seller: SellerProps) => {
     set({ seller, zone: undefined, client: undefined });
   },
@@ -42,7 +47,7 @@ export const useNewVentaStore = create<ControladorStateProps>((set) => ({
       client,
       order: {
         ...state.order,
-        orden: { ...state.order?.orden, clientId: client.id },
+        clientId: client.id,
       } as CreateOrderProps,
     }));
   },
@@ -50,10 +55,7 @@ export const useNewVentaStore = create<ControladorStateProps>((set) => ({
     set((state) => ({
       order: {
         ...state.order,
-        orden: {
-          ...state.order?.orden,
-          notes,
-        },
+        notes,
       } as CreateOrderProps,
     }));
   },
@@ -80,6 +82,14 @@ export const useNewVentaStore = create<ControladorStateProps>((set) => ({
           details: newDetails,
         } as CreateOrderProps,
       };
+    });
+  },
+  reset: () => {
+    set({
+      seller: undefined,
+      zone: undefined,
+      client: undefined,
+      order: undefined,
     });
   },
 }));
