@@ -1,36 +1,37 @@
 "use client";
 
-import { Contador } from "./components/contador";
-import { useProductQuery } from "./querys/useProduct.query";
-import { useContadorStore } from "./store/contador.store";
+import { Input } from "@/components/ui/input";
+import { AddDetailButton } from "./components/addDetail";
+import { SelectClient } from "./components/SelectClient";
+import { SelectSeller } from "./components/SelectSeller";
+import { SelectZone } from "./components/SelectZone";
+// import { useSellersQuery } from "./querys/useSellers.query";
+import { useNewVentaStore } from "./store/controladorNewVenta.store";
+import { Label } from "@/components/ui/label";
+import { SelectedProducts } from "./components/SelectedProducts";
+import { TotalSpan } from "./components/TotalSpan";
+import { CreateOrderBtn } from "./components/CreateOrderBtn";
 
 export default function Home() {
-  const { setCount, setCountWithParams, resetList } = useContadorStore();
-  const {
-    query: { data, isLoading },
-  } = useProductQuery();
+  const { seller, zone, client, order, setOrderNote } = useNewVentaStore();
 
-  if (isLoading) {
-    return <div>Cargando...</div>;
-  }
-
-  console.log(data);
-  if (data)
-    return (
-      <div className='flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black'>
-        <main className='flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start'>
-          <Contador />
-          <div>
-            {data.map((portfolio) => {
-              return <div key={portfolio.id}>{portfolio.name}</div>;
-            })}
-          </div>
-          <button onClick={setCount}>sumar</button>
-          <button onClick={resetList}>reset</button>
-          <button onClick={() => setCountWithParams(4)}>
-            sumar n cantidad{" "}
-          </button>
-        </main>
-      </div>
-    );
+  return (
+    <div className='flex h-full w-full flex-col gap-2 border-zinc-600 text-white p-8'>
+      <SelectSeller />
+      {seller && <SelectZone />}
+      {zone && <SelectClient />}
+      {client && <AddDetailButton />}
+      {client && (
+        <div className='flex flex-col gap-1'>
+          <Label>Nota:</Label>
+          <Input type='text' onChange={(e) => setOrderNote(e.target.value)} />
+        </div>
+      )}
+      {order && order.details && order.details.length > 0 && (
+        <SelectedProducts />
+      )}
+      {order && order.details && order.details.length > 0 && <TotalSpan />}
+      {order && order.details && order.details.length > 0 && <CreateOrderBtn />}
+    </div>
+  );
 }

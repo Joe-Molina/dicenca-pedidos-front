@@ -3,7 +3,7 @@ import api from "../libs/axiosConfig";
 import { ZoneProps } from "../types/types";
 
 const getAllZones = async (): Promise<ZoneProps[]> => {
-  const data = (await api.get("/zone/all")).data.zones;
+  const data = (await api.get("/zone/all")).data;
   return data;
 };
 
