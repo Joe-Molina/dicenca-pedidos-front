@@ -36,6 +36,7 @@ export interface OrderProps {
   clientId: number;
   createdAt: Date;
   notes: string;
+  details: OrderDetailsProps[];
 }
 
 export interface OrderDetailsProps {
@@ -48,6 +49,7 @@ export interface OrderDetailsProps {
 }
 
 export interface CreateOrderProps {
-  orden: Omit<OrderProps, "id" | "createdAt">;
-  details: Omit<OrderDetailsProps[], "id", "orderId">;
+  clientId: number;
+  notes: string;
+  details: Omit<OrderDetailsProps[], "id", "orderId" | "gr" | "total">;
 }

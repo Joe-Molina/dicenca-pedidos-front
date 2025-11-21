@@ -3,7 +3,7 @@ import api from "../libs/axiosConfig";
 import { ClientProps } from "../types/types";
 
 const getAllClients = async (): Promise<ClientProps[]> => {
-  const data = (await api.get("/client/all")).data.clients;
+  const data = (await api.get("/client/all")).data;
   return data;
 };
 
