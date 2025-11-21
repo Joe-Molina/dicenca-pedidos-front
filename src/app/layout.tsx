@@ -1,17 +1,14 @@
 "use client";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./libs/tanstackQueryProvider";
 import { Toaster } from "@/components/ui/sonner";
-const geistSans = Geist({
+
+const roboto = Roboto({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -19,9 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-zinc-900`}
-      >
+      <body className={`${roboto.variable}.className bg-neutral-800`}>
         <Toaster position='bottom-center' />
         <Providers>{children}</Providers>
       </body>
