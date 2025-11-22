@@ -6,6 +6,16 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+
+const DataOrder = () => {
+  return (
+    <div className="w-1/2 flex flex-col items-end justify-center p-5">
+      <p className="font-bold text-2xl">5</p>
+      <h3 className="text-sm text-neutral-400">Total de pedidos</h3>
+    </div>
+  )
+}
+
 export default function Seller() {
   const { seller } = useNewVentaStore();
 
@@ -16,7 +26,7 @@ export default function Seller() {
   }
 
   return (
-    <div className='flex h-full w-full flex-col gap-2 border-zinc-600 text-neutral-300 p-3'>
+    <div className='flex h-full w-full flex-col gap-4 px-4 border-zinc-600 text-neutral-300 p-3'>
       <div className='flex justify-between items-center'>
         <div className='flex items-center  gap-3 p-1'>
           <Package size={20} />
@@ -28,6 +38,12 @@ export default function Seller() {
           <User />
           {seller && <div>{seller.name}</div>}
         </div>
+      </div>
+      <div className="flex flex-wrap bg-neutral-900 w-full h-48 rounded-lg">
+        <DataOrder />
+        <DataOrder />
+        <DataOrder />
+        <DataOrder />
       </div>
       <Link href={"/sellers/new-order"} className='w-full'>
         <Button className='dark w-full'>Crear nueva orden</Button>
