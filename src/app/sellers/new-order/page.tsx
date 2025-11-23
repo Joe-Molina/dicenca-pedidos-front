@@ -22,33 +22,36 @@ export default function Home({ params }: { params: Promise<{ id: string }> }) {
     useNewVentaStore();
 
   return (
-    <div className='flex h-full w-full flex-col gap-2 border-neutral-900 text-white p-3'>
+    <div className='flex flex-col h-full w-full gap-2 border-neutral-300 p-3'>
       <div className='flex justify-between items-center w-full h-10'>
-        <Button onClick={() => router.back()}>
+        <Button className="" onClick={() => router.back()}>
           <ArrowLeft />
         </Button>
-        <Button onClick={reset}>Reset Orden</Button>
+        <Button onClick={reset} className="">Reset Orden</Button>
       </div>
-      {/* <SelectSeller /> */}
-      <p className='border-b border-neutral-700'>Crear Nuevo Pedido</p>
-      {seller && <SelectZone />}
-      {zone && <SelectClient />}
-      {client && <AddDetailButton />}
-      {client && (
-        <div className='flex flex-col gap-1'>
-          <Label>Nota:</Label>
-          <Input
-            className='bg-neutral-900 border-none'
-            type='text'
-            onChange={(e) => setOrderNote(e.target.value)}
-          />
-        </div>
-      )}
-      {order && order.details && order.details.length > 0 && (
-        <SelectedProducts />
-      )}
-      {order && order.details && order.details.length > 0 && <TotalSpan />}
-      {order && order.details && order.details.length > 0 && <CreateOrderBtn />}
+      <div className="flex flex-col w-full gap-2">
+        <p className='font-semibold text-2xl'>Crear Nuevo Pedido</p>
+        {seller && <SelectZone />}
+        {zone && <SelectClient />}
+        {client && (
+          <div className='flex flex-col gap-1'>
+            <Label>Nota:</Label>
+            <Input
+              className='border border-neutral-200 h-14'
+              type='text'
+              onChange={(e) => setOrderNote(e.target.value)}
+            />
+          </div>
+        )}
+        {client && <AddDetailButton />}
+        {order && order.details && order.details.length > 0 && (
+          <SelectedProducts />
+        )}
+      </div>
+      <div className="flex flex-col gap-2 w-full fixed bottom-0 z-50 right-0 left-0 p-3 bg-white border-t border-neutral-300">
+        {order && order.details && order.details.length > 0 && <TotalSpan />}
+        {order && order.details && order.details.length > 0 && <CreateOrderBtn />}
+      </div>
     </div>
   );
 }
