@@ -13,6 +13,7 @@ import { useAddProductStore } from "../store/addProduct.store";
 import { SelectProductBtn } from "./addProduct/selectProduct";
 import { SelectCantProduct } from "./addProduct/selectCantProduct";
 import { useNewVentaStore } from "../store/controladorNewVenta.store";
+import { Plus } from "lucide-react";
 
 export function AddDetailButton() {
   const { portfolio, product, productQuantity, resetData } =
@@ -22,8 +23,10 @@ export function AddDetailButton() {
 
   return (
     <Drawer>
-      <DrawerTrigger className='bg-neutral-100 text-black p-2 rounded-sm font-medium'>
-        Agregar Producto
+      <DrawerTrigger className='flex  justify-center items-center gap-2
+       p-2  rounded-sm font-medium bg-neutral-950 text-neutral-100'>
+        <Plus size={17} />
+        <p className="text-sm">Agregar Producto</p>
       </DrawerTrigger>
       <DrawerContent className='dark h-[400px]'>
         <DrawerHeader>

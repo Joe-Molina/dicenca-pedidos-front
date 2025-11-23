@@ -30,7 +30,7 @@ export function SelectZone() {
           setZone(zones!.find((zone) => zone.id == Number(value))!)
         }
       >
-        <SelectTrigger className='w-full '>
+        <SelectTrigger className='w-full'>
           <SelectValue placeholder='Selecciona una zona' />
         </SelectTrigger>
         <SelectContent>

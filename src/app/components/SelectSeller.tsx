@@ -35,7 +35,7 @@ export function SelectSeller() {
           router.push(`/sellers`);
         }}
       >
-        <SelectTrigger className='w-full bg-zinc-800'>
+        <SelectTrigger className='w-full'>
           <SelectValue placeholder='Selecciona un vendedor' />
         </SelectTrigger>
         <SelectContent>

@@ -33,7 +33,7 @@ export function CreateOrderBtn() {
   }
 
   return (
-    <Button className='dark' onClick={() => createOrder(order!)}>
+    <Button onClick={() => createOrder(order!)} className="">
       realizar orden
     </Button>
   );
