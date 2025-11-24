@@ -10,7 +10,7 @@ const getAllZones = async (): Promise<ZoneProps[]> => {
 const createZone = async (
   newZone: Omit<ZoneProps, "id">
 ): Promise<ZoneProps> => {
-  const data = (await api.post(`/zone/create`, { newZone })).data;
+  const data = (await api.post(`/zone/create`, newZone)).data;
   return data;
 };
 

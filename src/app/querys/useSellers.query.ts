@@ -10,7 +10,7 @@ const getAllSellers = async (): Promise<SellerProps[]> => {
 const createSeller = async (
   newSeller: Omit<SellerProps, "id">
 ): Promise<SellerProps> => {
-  const data = (await api.post(`/seller/create`, { newSeller })).data;
+  const data = (await api.post(`/seller/create`, newSeller)).data;
   return data;
 };
 
