@@ -7,13 +7,16 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className='flex h-full w-full flex-col gap-2 p-8'>
+    <div className="flex h-full w-full flex-col gap-2 p-8">
       <SelectSeller />
       <Button>
         <Link href={"/create/seller"}>Administrar Vendedores</Link>
       </Button>
       <Button>
         <Link href={"/create/zone"}>Administrar Zonas</Link>
+      </Button>
+      <Button>
+        <Link href={"/create/client"}>Administrar Clientes</Link>
       </Button>
     </div>
   );
