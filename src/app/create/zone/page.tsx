@@ -18,9 +18,9 @@ export default function Home() {
     query: { data: sellers, isLoading: sellersLoading },
   } = useSellersQuery();
   return (
-    <div className='flex h-full w-full flex-col gap-2 p-4'>
-      <div className='flex justify-between items-center w-full h-10'>
-        <Button className='' onClick={() => router.back()}>
+    <div className="flex h-full w-full flex-col gap-2 p-4">
+      <div className="flex justify-between items-center w-full h-10">
+        <Button className="" onClick={() => router.back()}>
           <ArrowLeft />
         </Button>
       </div>
@@ -42,14 +42,14 @@ export default function Home() {
             return (
               <li
                 key={zone.id}
-                className='flex items-center  justify-between border-b py-2'
+                className="flex items-center  justify-between border-b py-2"
               >
                 <div>
                   {zone.names} - {seller?.name}
                 </div>
                 <Button
-                  variant='ghost'
-                  size='icon'
+                  variant="ghost"
+                  size="icon"
                   onClick={() => {
                     deleteZoneMutation.mutateAsync(zone.id, {
                       onSuccess: () => {
@@ -60,7 +60,7 @@ export default function Home() {
                     });
                   }}
                 >
-                  <Trash className='cursor-pointer' />
+                  <Trash className="cursor-pointer" />
                 </Button>
               </li>
             );

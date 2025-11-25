@@ -34,18 +34,18 @@ export default function CreateSellerDrawer() {
   };
 
   return (
-    <DrawerCreate trigger='Crear Vendedor'>
+    <DrawerCreate trigger="Crear Vendedor">
       {/* Formulario para crear un vendedor */}
-      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2'>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <Label>Nombre:</Label>
         {errors.name && <span>El nombre es obligatorio</span>}
-        <Input type='text' {...register("name", { required: true })} />
+        <Input type="text" {...register("name", { required: true })} />
         <Label>Contacto:</Label>
-        <Input type='number' {...register("contact", { required: true })} />
+        <Input type="number" {...register("contact", { required: true })} />
         {errors.contact && <span>El contacto es obligatorio</span>}
         <DrawerFooter>
           <DrawerClose asChild>
-            <Button variant='outline' type='submit'>
+            <Button variant="outline" type="submit">
               Guardar
             </Button>
           </DrawerClose>
