@@ -1,9 +1,9 @@
 // axiosInstance.ts
 import axios from "axios";
 
-const baseURL = "https://api.dicenca.jodomodev.com";
+// const baseURL = "https://api.dicenca.jodomodev.com";
 
-// const baseURL = "http://localhost:3000";
+const baseURL = "http://localhost:3000";
 
 const axiosInstance = axios.create({
   baseURL: baseURL,
