@@ -22,10 +22,10 @@ export function DrawerCreate({
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant='outline'>{trigger}</Button>
+        <Button variant="outline">{trigger}</Button>
       </DrawerTrigger>
       <DrawerContent>
-        <div className='p-3 w-full max-w-sm'>
+        <div className="p-3 w-full max-w-sm mx-auto">
           <DrawerHeader>
             <DrawerTitle>{trigger}</DrawerTitle>
           </DrawerHeader>
