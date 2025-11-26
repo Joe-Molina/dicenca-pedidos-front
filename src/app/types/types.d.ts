@@ -16,6 +16,8 @@ export interface ClientProps {
   contact: number;
   cod_sunagro: number;
   zoneId: number;
+  name: string;
+  company_name: string;
 }
 
 export interface ProductProps {
