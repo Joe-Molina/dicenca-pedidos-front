@@ -1,9 +1,13 @@
 // axiosInstance.ts
 import axios from "axios";
 
+const isDevelopment = process.env.NODE_ENV === "development";
+
 // const baseURL = "https://dicenca.jodomodev.com/api";
 
-const baseURL = "http://localhost:3000";
+const baseURL = isDevelopment
+  ? "http://localhost:3000"
+  : "https://dicenca.jodomodev.com/api";
 
 const axiosInstance = axios.create({
   baseURL: baseURL,
