@@ -22,7 +22,7 @@ export default function Page() {
 
   const onSubmit = async (data: LoginFormInputs) => {
     const isLoged = await login(data);
-    if (isLoged) router.push("dashboard/productos");
+    if (isLoged) router.push("create/new_order");
   };
 
   return (
@@ -51,7 +51,7 @@ export default function Page() {
             >
               <Input
                 type='text'
-                placeholder='Usuario'
+                placeholder='Email'
                 id='email'
                 {...register("email", {
                   required: "El nombre de usuario es obligatorio",
