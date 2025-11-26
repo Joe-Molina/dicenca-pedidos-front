@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 
 const publicRoutes = ["/"];
+const JWT_SECRET = process.env.JWT_SECRET;
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const cookies = request.cookies;
   const accessToken = cookies.get("access_token");
   const { pathname } = request.nextUrl;
@@ -13,6 +16,10 @@ export async function middleware(request: NextRequest) {
       "✅ Middleware: Cookie access_token encontrada:",
       accessToken.value
     );
+
+    const decodedJwt = jwt.verify(accessToken.value, JWT_SECRET!);
+
+    console.log(decodedJwt);
   } else {
     console.log("❌ Middleware: Cookie access_token NO encontrada.");
   }
