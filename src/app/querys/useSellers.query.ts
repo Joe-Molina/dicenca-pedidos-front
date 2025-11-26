@@ -3,7 +3,7 @@ import api from "../libs/axiosConfig";
 import { SellerProps } from "../types/types";
 
 const getAllSellers = async (): Promise<SellerProps[]> => {
-  const data = (await api.get("/seller/all")).data.safeResponseSellers;
+  const data = (await api.get("/user/all/sellers")).data;
   return data;
 };
 
