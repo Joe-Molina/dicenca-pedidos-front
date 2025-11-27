@@ -1,7 +1,6 @@
 "use client";
 import { useClientsQuery } from "@/app/querys/useClients.query";
 import { ClientProps } from "@/app/types/types";
-import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { DrawerCreate } from "./createDrawer";
