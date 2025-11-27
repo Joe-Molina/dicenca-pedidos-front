@@ -22,6 +22,10 @@ const editClient = async (
   ).data;
   return data;
 };
+const deleteClient = async (id: number): Promise<ClientProps> => {
+  const data = (await api.delete(`/client/delete/${id}`)).data;
+  return data;
+};
 
 export function useClientsQuery() {
   const queryClient = useQueryClient();
@@ -29,11 +33,6 @@ export function useClientsQuery() {
     queryKey: ["clients"],
     queryFn: getAllClients,
   });
-
-  const deleteClient = async (id: number): Promise<ClientProps> => {
-    const data = (await api.delete(`/client/create/${id}`)).data;
-    return data;
-  };
 
   const createClientMutation = useMutation<
     ClientProps,

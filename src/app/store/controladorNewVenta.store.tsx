@@ -4,18 +4,18 @@ import {
   ClientProps,
   CreateOrderProps,
   OrderDetailsProps,
-  SellerProps,
+  UserProps,
   ZoneProps,
 } from "../types/types";
 
 //creacion de type para el estado del zustand
 interface ControladorStateProps {
-  seller: SellerProps | undefined;
+  seller: UserProps | undefined;
   zone: ZoneProps | undefined;
   client: ClientProps | undefined;
   order: CreateOrderProps;
   reset: () => void;
-  setSeller: (seller: SellerProps) => void;
+  setSeller: (seller: UserProps) => void;
   setZone: (zone: ZoneProps) => void;
   setClient: (client: ClientProps) => void;
   setOrderNote: (notes: string) => void;
@@ -36,7 +36,7 @@ export const useNewVentaStore = create<ControladorStateProps>((set) => ({
     notes: "",
     details: [],
   },
-  setSeller: (seller: SellerProps) => {
+  setSeller: (seller: UserProps) => {
     set({ seller, zone: undefined, client: undefined });
   },
   setZone: (zone: ZoneProps) => {

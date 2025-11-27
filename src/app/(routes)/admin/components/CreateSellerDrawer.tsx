@@ -2,7 +2,7 @@ import { DrawerCreate } from "./createDrawer";
 import { DrawerClose, DrawerFooter } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { SellerProps } from "@/app/types/types";
+import { UserProps } from "@/app/types/types";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useSellersQuery } from "@/app/querys/useSellers.query";
@@ -15,14 +15,17 @@ export default function CreateSellerDrawer() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Omit<SellerProps, "id">>({
+  } = useForm<Omit<UserProps, "id" | "role">>({
     defaultValues: {
+      username: "",
+      password: "",
       name: "",
-      contact: 0,
+      lastname: "",
+      email: "",
     },
   });
 
-  const onSubmit = (data: Omit<SellerProps, "id">) => {
+  const onSubmit = (data: Omit<UserProps, "id" | "role">) => {
     console.log("data", data);
     createSellerMutation.mutateAsync(data, {
       onSuccess: () => {
@@ -34,18 +37,23 @@ export default function CreateSellerDrawer() {
   };
 
   return (
-    <DrawerCreate trigger="Crear Vendedor">
+    <DrawerCreate trigger='Crear Vendedor'>
       {/* Formulario para crear un vendedor */}
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <Label>Nombre:</Label>
+      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2'>
+        <Label>Nombre</Label>
         {errors.name && <span>El nombre es obligatorio</span>}
-        <Input type="text" {...register("name", { required: true })} />
-        <Label>Contacto:</Label>
-        <Input type="number" {...register("contact", { required: true })} />
-        {errors.contact && <span>El contacto es obligatorio</span>}
+        <Input type='text' {...register("name", { required: true })} />
+        <Label>Apellido</Label>
+        <Input type='text' {...register("lastname", { required: true })} />
+        <Label>Usuario</Label>
+        <Input type='text' {...register("username", { required: true })} />
+        <Label>Email</Label>
+        <Input type='email' {...register("email", { required: true })} />
+        <Label>Contraseña</Label>
+        <Input type='password' {...register("password", { required: true })} />
         <DrawerFooter>
           <DrawerClose asChild>
-            <Button variant="outline" type="submit">
+            <Button variant='outline' type='submit'>
               Guardar
             </Button>
           </DrawerClose>

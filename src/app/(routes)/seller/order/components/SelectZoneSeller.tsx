@@ -7,18 +7,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useNewVentaStore } from "../store/controladorNewVenta.store";
-import { SpinnerGlobal } from "./SpinnerGlobal";
-import { useZonesQuery } from "../querys/useZones.query";
+
 import { Label } from "@/components/ui/label";
-export function SelectZone() {
+import { SpinnerGlobal } from "@/app/components/SpinnerGlobal";
+import { useZonesQuery } from "@/app/querys/useZones.query";
+import { useNewVentaStore } from "@/app/store/controladorNewVenta.store";
+import { useAuthStore } from "@/app/store/useAuthStore";
+export function SelectZoneSeller() {
   const {
     query: { data: zones, isLoading },
   } = useZonesQuery();
 
-  const { setZone, seller } = useNewVentaStore();
+  const { setZone, setSeller } = useNewVentaStore();
+  const { user, isAuthenticated } = useAuthStore();
+  console.log(user);
 
-  if (isLoading) {
+  if (isLoading || !isAuthenticated || !user) {
     return <SpinnerGlobal />;
   }
 
@@ -26,9 +30,10 @@ export function SelectZone() {
     <div className='flex flex-col gap-1'>
       <Label>Zona:</Label>
       <Select
-        onValueChange={(value) =>
-          setZone(zones!.find((zone) => zone.id == Number(value))!)
-        }
+        onValueChange={(value) => {
+          setSeller(user!);
+          setZone(zones!.find((zone) => zone.id == Number(value))!);
+        }}
       >
         <SelectTrigger className='w-full'>
           <SelectValue placeholder='Selecciona una zona' />
@@ -37,7 +42,7 @@ export function SelectZone() {
           <SelectGroup>
             <SelectLabel>zonas</SelectLabel>
             {zones!
-              .filter((zone) => zone.userId == seller?.id)
+              .filter((zone) => zone.userId == user!.id)
               .map((zone) => (
                 <SelectItem key={zone.id} value={zone.id.toString()}>
                   {zone.names}

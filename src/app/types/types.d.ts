@@ -6,7 +6,17 @@ export interface PortFolioProps {
 export interface ZoneProps {
   id: number;
   names: string;
-  vendedorId: number;
+  userId: number;
+}
+
+export interface UserProps {
+  id: number;
+  username: string;
+  password: string;
+  name: string;
+  lastname: string;
+  email: string;
+  role: "seller" | "admin";
 }
 
 export interface ClientProps {
@@ -54,4 +64,14 @@ export interface CreateOrderProps {
   clientId: number;
   notes: string;
   details: Omit<OrderDetailsProps[], "id", "orderId" | "gr" | "total">;
+}
+
+interface UserPayload {
+  id: number;
+  username: string;
+  password: string;
+  name: string;
+  lastname: string;
+  email: string;
+  role: "admin" | "seller";
 }
