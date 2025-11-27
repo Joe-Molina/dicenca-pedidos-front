@@ -1,59 +1,61 @@
 "use client";
-
-import { useRouter } from "next/navigation";
+import { useClientsQuery } from "@/app/querys/useClients.query";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Trash } from "lucide-react";
-import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import CreateClientDrawer from "../components/createClientDrawer";
 import { useZonesQuery } from "@/app/querys/useZones.query";
-import { useSellersQuery } from "@/app/querys/useSellers.query";
-import CreateZoneDrawer from "../components/CreateZoneDrawer";
+import { toast } from "sonner";
 
-export default function Home() {
+export default function AdminClient() {
   const router = useRouter();
   const {
     query: { data, isLoading },
-    deleteZoneMutation,
-  } = useZonesQuery();
+    deleteClientMutation,
+  } = useClientsQuery();
   const {
-    query: { data: sellers, isLoading: sellersLoading },
-  } = useSellersQuery();
+    query: { data: zones, isLoading: zonesLoading },
+  } = useZonesQuery();
+
+  if (isLoading) {
+    return <p>Cargando Clientes...</p>;
+  }
+
   return (
     <div className="flex h-full w-full flex-col gap-2 p-4">
       <div className="flex justify-between items-center w-full h-10">
-        <Button className="" onClick={() => router.back()}>
+        <Button onClick={() => router.back()}>
           <ArrowLeft />
         </Button>
       </div>
-      <p>Zonas</p>
-      <CreateZoneDrawer />
+      <p>Clientes</p>
+      <CreateClientDrawer />
       {isLoading ? (
-        <p>Cargando Zonas...</p>
+        <p>Cargando Clientes... </p>
       ) : (
-        <ul>
-          {data?.map((zone, index) => {
-            const seller = sellers?.find(
-              (seller) => seller.id === zone.vendedorId
-            );
+        <u>
+          {data?.map((client, index) => {
+            const zone = zones?.find((zone) => zone.id === client.zoneId);
 
-            if (sellersLoading) {
-              return <p key={index}>Cargando vendedores...</p>;
+            if (zonesLoading) {
+              return <p key={index}>webo peluisimo</p>;
             }
 
             return (
               <li
-                key={zone.id}
+                key={client.id}
                 className="flex items-center  justify-between border-b py-2"
               >
                 <div>
-                  {zone.names} - {seller?.name}
+                  {client.name} - {zone?.names}
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => {
-                    deleteZoneMutation.mutateAsync(zone.id, {
+                    deleteClientMutation.mutateAsync(client.id, {
                       onSuccess: () => {
-                        toast("Vendedor eliminado exitosamente", {
+                        toast("Cliente eliminado exitosamente", {
                           description: new Date().toLocaleString(),
                         });
                       },
@@ -65,7 +67,7 @@ export default function Home() {
               </li>
             );
           })}
-        </ul>
+        </u>
       )}
     </div>
   );
