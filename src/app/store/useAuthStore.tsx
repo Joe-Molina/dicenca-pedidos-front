@@ -1,23 +1,13 @@
 import { create } from "zustand";
-import { LoginFormInputs } from "../(notProtected)/login/page";
+import { LoginFormInputs } from "../(routes)/login/page";
 import api from "../libs/axiosConfig";
-
-export interface UserProps {
-  id: number;
-  name: string;
-  lastname: string;
-  username: string;
-  email: string;
-  password: string;
-  contact: string;
-  role: "seller" | "admin";
-}
+import { UserProps } from "../types/types";
 
 interface State {
   user: UserProps | null;
   isAuthenticated: boolean;
   loading: boolean;
-  login: (data: LoginFormInputs) => Promise<boolean>;
+  login: (data: LoginFormInputs) => Promise<string>;
   logout: () => Promise<void>;
 }
 
@@ -35,13 +25,13 @@ export const useAuthStore = create<State>((set) => ({
       });
       if (res) {
         set({ user: res.data.user, isAuthenticated: true });
-        return true;
+        return res.data.role;
       }
-      return false;
+      return "";
     } catch (error) {
       console.error("Login failed:", error);
       set({ user: null, isAuthenticated: false });
-      return false;
+      return "";
     }
   },
 

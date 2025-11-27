@@ -24,21 +24,16 @@ export default function CreateZoneDrawer() {
     query: { data: sellers, isLoading },
   } = useSellersQuery();
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<Omit<ZoneProps, "id">>({
+  const { register, handleSubmit, control } = useForm<Omit<ZoneProps, "id">>({
     defaultValues: {
       names: "",
-      vendedorId: 0,
+      userId: 0,
     },
   });
 
   const onSubmit = (data: Omit<ZoneProps, "id">) => {
     console.log("data", data);
-    data.vendedorId = Number(data.vendedorId);
+    data.userId = Number(data.userId);
     createZoneMutation.mutateAsync(data, {
       onSuccess: () => {
         toast("Zona creado exitosamente", {
@@ -49,29 +44,29 @@ export default function CreateZoneDrawer() {
   };
 
   if (isLoading) {
-    return <p>Cargando vendedores...</p>;
+    return <p>Cargando user...</p>;
   }
 
   return (
-    <DrawerCreate trigger='crear y asignar una zona a un vendedor'>
-      {/* Formulario para crear un vendedor */}
+    <DrawerCreate trigger='asignar Zona'>
+      {/* Formulario para crear un user */}
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2'>
-        <Label>Vendedor:</Label>
+        <Label>user:</Label>
         <Controller
-          name='vendedorId' // El nombre del campo que registrarás
+          name='userId' // El nombre del campo que registrarás
           control={control} // Viene de useForm()
-          rules={{ required: "Debes seleccionar un vendedor" }} // Reglas de validación
+          rules={{ required: "Debes seleccionar un user" }} // Reglas de validación
           render={({ field }) => (
             <Select
               onValueChange={field.onChange} // Vincula el cambio de valor del Select con RHF
               defaultValue={field.value.toString()}
             >
               <SelectTrigger className='w-full'>
-                <SelectValue placeholder='Selecciona un vendedor' />
+                <SelectValue placeholder='Selecciona un user' />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Vendedores</SelectLabel>
+                  <SelectLabel>useres</SelectLabel>
                   {sellers &&
                     sellers.map((seller) => (
                       <SelectItem key={seller.id} value={seller.id.toString()}>

@@ -21,8 +21,12 @@ export default function Page() {
   const router = useRouter();
 
   const onSubmit = async (data: LoginFormInputs) => {
-    const isLoged = await login(data);
-    if (isLoged) router.push("create/new_order");
+    const LogedRole = await login(data);
+    if (LogedRole == "admin") {
+      router.push("/admin");
+    } else if (LogedRole == "seller") {
+      router.push("/seller");
+    }
   };
 
   return (
