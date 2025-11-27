@@ -55,7 +55,7 @@ export default function AdminClient() {
                   onClick={() => {
                     deleteClientMutation.mutateAsync(client.id, {
                       onSuccess: () => {
-                        toast("Vendedor eliminado exitosamente", {
+                        toast("Cliente eliminado exitosamente", {
                           description: new Date().toLocaleString(),
                         });
                       },

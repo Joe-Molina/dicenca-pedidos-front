@@ -1,3 +1,4 @@
+"use client";
 import { useClientsQuery } from "@/app/querys/useClients.query";
 import { ClientProps } from "@/app/types/types";
 import React from "react";
@@ -18,11 +19,16 @@ export default function CreateClientDrawer() {
       contact: 0,
       rif: "",
       zoneId: 0,
+      company_name: "",
+      name: "",
     },
   });
 
   const onSubmit = (data: Omit<ClientProps, "id">) => {
     console.log("data", data);
+    data.cod_sunagro = Number(data.cod_sunagro);
+    data.contact = Number(data.contact);
+    data.zoneId = Number(data.zoneId);
     createClientMutation.mutateAsync(data, {
       onSuccess: () => {
         toast("Cliente creado exitosamente", {
@@ -36,6 +42,10 @@ export default function CreateClientDrawer() {
     <DrawerCreate trigger="Crear Cliente">
       {/*Eto e un formulario pa lo cliente causa*/}
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+        <Label>Razón Social:</Label>
+        <Input type="text" {...register("company_name", { required: true })} />
+        <Label>Dueño/Encargado:</Label>
+        <Input type="text" {...register("name", { required: true })} />
         <Label>Direccion:</Label>
         <Input type="text" {...register("address", { required: true })} />
         <Label>Codigo Sunagro:</Label>
@@ -45,7 +55,7 @@ export default function CreateClientDrawer() {
         <Label>Rif:</Label>
         <Input type="text" {...register("rif", { required: true })} />{" "}
         <Label>Zona:</Label>
-        <Input type="text" {...register("zoneId", { required: true })} />
+        <Input type="number" {...register("zoneId", { required: true })} />
         <DrawerFooter>
           <DrawerClose asChild>
             <Button variant="outline" type="submit">

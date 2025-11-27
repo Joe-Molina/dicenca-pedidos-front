@@ -10,7 +10,7 @@ const getAllClients = async (): Promise<ClientProps[]> => {
 const createClient = async (
   newClient: Omit<ClientProps, "id">
 ): Promise<ClientProps> => {
-  const data = (await api.post(`/client/create`, { newClient })).data;
+  const data = (await api.post(`/client/create`, newClient)).data;
   return data;
 };
 
