@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${roboto.variable}.className `}>
+      <body className={`${roboto.variable}.className bg-neutral-100`}>
         <Toaster position='bottom-center' />
         <Providers>{children}</Providers>
       </body>
