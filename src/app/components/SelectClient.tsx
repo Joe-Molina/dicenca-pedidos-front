@@ -30,7 +30,7 @@ export function SelectClient() {
           setClient(clients!.find((client) => client.id == Number(value))!)
         }
       >
-        <SelectTrigger className='w-full '>
+        <SelectTrigger className='w-full'>
           <SelectValue placeholder='Selecciona un Cliente' />
         </SelectTrigger>
         <SelectContent>

@@ -52,24 +52,24 @@ export default function CreateClientDrawer() {
   } = useZonesQuery();
 
   return (
-    <DrawerCreate trigger="Crear Cliente">
+    <DrawerCreate trigger='Crear Cliente'>
       {/*Eto e un formulario pa lo cliente causa*/}
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2'>
         <Label>Razón Social:</Label>
-        <Input type="text" {...register("company_name", { required: true })} />
+        <Input type='text' {...register("company_name", { required: true })} />
         <Label>Dueño/Encargado:</Label>
-        <Input type="text" {...register("name", { required: true })} />
+        <Input type='text' {...register("name", { required: true })} />
         <Label>Direccion:</Label>
-        <Input type="text" {...register("address", { required: true })} />
+        <Input type='text' {...register("address", { required: true })} />
         <Label>Codigo Sunagro:</Label>
-        <Input type="text" {...register("cod_sunagro", { required: true })} />
+        <Input type='text' {...register("cod_sunagro", { required: true })} />
         <Label>Contacto:</Label>
-        <Input type="text" {...register("contact", { required: true })} />{" "}
+        <Input type='text' {...register("contact", { required: true })} />{" "}
         <Label>Rif:</Label>
-        <Input type="text" {...register("rif", { required: true })} />{" "}
+        <Input type='text' {...register("rif", { required: true })} />{" "}
         <Label>Zona:</Label>
         <Controller
-          name="zoneId" // El nombre del campo que registrarás
+          name='zoneId' // El nombre del campo que registrarás
           control={control} // Viene de useForm()
           rules={{ required: "Debes seleccionar un vendedor" }} // Reglas de validación
           render={({ field }) => (
@@ -77,8 +77,8 @@ export default function CreateClientDrawer() {
               onValueChange={field.onChange} // Vincula el cambio de valor del Select con RHF
               defaultValue={field.value.toString()}
             >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Selecciona un vendedor" />
+              <SelectTrigger className='w-full'>
+                <SelectValue placeholder='Selecciona un vendedor' />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -96,7 +96,7 @@ export default function CreateClientDrawer() {
         />
         <DrawerFooter>
           <DrawerClose asChild>
-            <Button variant="outline" type="submit">
+            <Button variant='outline' type='submit'>
               Guardar
             </Button>
           </DrawerClose>

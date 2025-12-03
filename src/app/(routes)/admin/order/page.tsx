@@ -11,37 +11,31 @@ import { useNewVentaStore } from "@/app/store/controladorNewVenta.store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { use } from "react";
 
 export default function Home({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const router = useRouter();
   console.log("Seller ID:", id);
   const { seller, zone, client, order, setOrderNote, reset } =
     useNewVentaStore();
 
   return (
     <div className='flex flex-col h-full w-full gap-2 border-neutral-300 p-3'>
-      <div className='flex justify-between items-center w-full h-10'>
-        <Button className='' onClick={() => router.back()}>
-          <ArrowLeft />
-        </Button>
-        <Button onClick={reset} className=''>
-          Reset Orden
-        </Button>
-      </div>
       <div className='flex flex-col w-full gap-2'>
-        <p className='font-semibold text-2xl'>Crear Nuevo Pedido</p>
+        <div className='flex justify-between items-center'>
+          <p className='font-semibold text-2xl'>Crear Nuevo Pedido</p>
+          <Button onClick={reset} className='bg-sky-700'>
+            Borrar todo
+          </Button>
+        </div>
         <SelectSeller />
         {seller && <SelectZone />}
         {zone && <SelectClient />}
         {client && (
-          <div className='flex flex-col gap-1'>
+          <div className='flex flex-col gap-1 '>
             <Label>Nota:</Label>
             <Input
-              className='border border-neutral-200 h-14'
+              className='border border-neutral-200 h-14 bg-white'
               type='text'
               onChange={(e) => setOrderNote(e.target.value)}
             />

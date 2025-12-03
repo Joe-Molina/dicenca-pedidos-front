@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 export function SelectCantProduct() {
   const { setProductQuantity, product, productQuantity } = useAddProductStore();
   return (
-    <div className='text-white'>
+    <div className=''>
       <div className='w-full flex flex-col gap-2'>
         <Label>Cantidad del producto</Label>
         <div className='flex gap-2 items-center'>

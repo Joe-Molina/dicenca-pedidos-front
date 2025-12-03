@@ -1,14 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import CreateSellerDrawer from "../components/CreateSellerDrawer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { useSellersQuery } from "@/app/querys/useSellers.query";
 import { toast } from "sonner";
 
 export default function Home() {
-  const router = useRouter();
   const {
     query: { data, isLoading },
     deleteSellerMutation,
@@ -20,11 +18,6 @@ export default function Home() {
 
   return (
     <div className='flex h-full w-full flex-col gap-2 p-4'>
-      <div className='flex justify-between items-center w-full h-10'>
-        <Button className='' onClick={() => router.back()}>
-          <ArrowLeft />
-        </Button>
-      </div>
       <p>Vendedores</p>
       <CreateSellerDrawer />
       {isLoading ? (

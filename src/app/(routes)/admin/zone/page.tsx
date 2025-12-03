@@ -1,15 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { toast } from "sonner";
 import { useZonesQuery } from "@/app/querys/useZones.query";
 import { useSellersQuery } from "@/app/querys/useSellers.query";
 import CreateZoneDrawer from "../components/CreateZoneDrawer";
 
 export default function Home() {
-  const router = useRouter();
   const {
     query: { data, isLoading },
     deleteZoneMutation,
@@ -19,11 +17,6 @@ export default function Home() {
   } = useSellersQuery();
   return (
     <div className='flex h-full w-full flex-col gap-2 p-4'>
-      <div className='flex justify-between items-center w-full h-10'>
-        <Button className='' onClick={() => router.back()}>
-          <ArrowLeft />
-        </Button>
-      </div>
       <p>Zonas</p>
       <CreateZoneDrawer />
       {isLoading ? (

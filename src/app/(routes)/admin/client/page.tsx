@@ -22,13 +22,8 @@ export default function AdminClient() {
   }
 
   return (
-    <div className="flex h-full w-full flex-col gap-2 p-4">
-      <div className="flex justify-between items-center w-full h-10">
-        <Button onClick={() => router.back()}>
-          <ArrowLeft />
-        </Button>
-      </div>
-      <p>Clientes</p>
+    <div className='flex h-full w-full flex-col gap-2 p-4'>
+      <p className='font-semibold text-2xl'>Clientes</p>
       <CreateClientDrawer />
       {isLoading ? (
         <p>Cargando Clientes... </p>
@@ -44,14 +39,14 @@ export default function AdminClient() {
             return (
               <li
                 key={client.id}
-                className="flex items-center  justify-between border-b py-2"
+                className='flex items-center  justify-between border-b py-2'
               >
                 <div>
                   {client.name} - {zone?.names}
                 </div>
                 <Button
-                  variant="ghost"
-                  size="icon"
+                  variant='ghost'
+                  size='icon'
                   onClick={() => {
                     deleteClientMutation.mutateAsync(client.id, {
                       onSuccess: () => {
@@ -62,7 +57,7 @@ export default function AdminClient() {
                     });
                   }}
                 >
-                  <Trash className="cursor-pointer" />
+                  <Trash className='cursor-pointer' />
                 </Button>
               </li>
             );
