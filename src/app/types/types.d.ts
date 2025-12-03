@@ -48,7 +48,8 @@ export interface OrderProps {
   clientId: number;
   createdAt: Date;
   notes: string;
-  details: OrderDetailsProps[];
+  status: boolean;
+  orderDetails: OrderDetailsProps[];
 }
 
 export interface OrderDetailsProps {

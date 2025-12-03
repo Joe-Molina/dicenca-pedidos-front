@@ -33,7 +33,7 @@ export function CreateOrderBtn() {
   }
 
   return (
-    <Button onClick={() => createOrder(order!)} className="">
+    <Button onClick={() => createOrder(order!)} className='bg-sky-700'>
       realizar orden
     </Button>
   );

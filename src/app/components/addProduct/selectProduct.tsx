@@ -25,13 +25,13 @@ export function SelectProductBtn() {
 
   return (
     <div className='flex flex-col gap-1'>
-      <Label className='text-white'>Producto:</Label>
+      <Label className=''>Producto:</Label>
       <Select
         onValueChange={(value) =>
           setProduct(products!.find((product) => product.id == Number(value))!)
         }
       >
-        <SelectTrigger className='w-full text-white'>
+        <SelectTrigger className='w-full'>
           <SelectValue placeholder='Selecciona un producto' />
         </SelectTrigger>
         <SelectContent>

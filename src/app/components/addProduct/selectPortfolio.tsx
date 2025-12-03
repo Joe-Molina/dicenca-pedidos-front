@@ -25,7 +25,7 @@ export function SelectPortfolioBtn() {
 
   return (
     <div className='flex flex-col gap-1'>
-      <Label className='text-white'>Portafolio:</Label>
+      <Label className=''>Portafolio:</Label>
       <Select
         onValueChange={(value) =>
           setPortfolio(
@@ -33,7 +33,7 @@ export function SelectPortfolioBtn() {
           )
         }
       >
-        <SelectTrigger className='w-full text-white'>
+        <SelectTrigger className='w-full '>
           <SelectValue placeholder='Selecciona un portafolio' />
         </SelectTrigger>
         <SelectContent>

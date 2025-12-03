@@ -3,7 +3,7 @@ import api from "../libs/axiosConfig";
 import { CreateOrderProps, OrderProps } from "../types/types";
 
 const getAllOrders = async (): Promise<OrderProps[]> => {
-  const data = (await api.get("/order/all")).data;
+  const data = (await api.get("/order/all")).data.ordenes;
   return data;
 };
 

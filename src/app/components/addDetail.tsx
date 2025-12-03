@@ -23,12 +23,14 @@ export function AddDetailButton() {
 
   return (
     <Drawer>
-      <DrawerTrigger className='flex  justify-center items-center gap-2
-       p-2  rounded-sm font-medium bg-neutral-950 text-neutral-100'>
+      <DrawerTrigger
+        className='flex  justify-center items-center gap-2
+       p-2  rounded-sm font-medium bg-sky-700 text-white'
+      >
         <Plus size={17} />
-        <p className="text-sm">Agregar Producto</p>
+        <p className='text-sm'>Agregar Producto</p>
       </DrawerTrigger>
-      <DrawerContent className='dark h-[400px]'>
+      <DrawerContent className=' h-[400px]'>
         <DrawerHeader>
           <DrawerTitle>
             Escoje un portafolio y un producto para agregar
@@ -47,7 +49,7 @@ export function AddDetailButton() {
             });
             resetData();
           }}
-          className='bg-neutral-50 py-2 rounded-sm hover:bg-neutral-900 flex justify-center items-center gap-2 w-60 mx-auto mt-4'
+          className='py-2 rounded-sm flex justify-center items-center gap-2 w-60 mx-auto mt-4 bg-sky-700 text-white'
         >
           <p className=' font-semibold'>Agregar producto</p>
         </DrawerClose>

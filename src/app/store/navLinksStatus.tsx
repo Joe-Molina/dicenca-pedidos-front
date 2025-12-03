@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 const navLinksStart = [
   { name: "Inicio", href: "/admin", current: true },
-  { name: "Pedidos", href: "/admin/orders", current: false },
+  { name: "Pedidos", href: "/admin/order", current: false },
   { name: "Productos", href: "/admin/product", current: false },
   { name: "Vendedores", href: "/admin/seller", current: false },
   { name: "Zonas", href: "/admin/zone", current: false },
