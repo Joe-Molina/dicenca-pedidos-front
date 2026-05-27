@@ -6,7 +6,7 @@ const isDevelopment = process.env.NODE_ENV === "development";
 // const baseURL = "https://dicenca.jodomodev.com/api";
 
 const baseURL = isDevelopment
-  ? "http://localhost:3000"
+  ? "http://localhost:3001"
   : "https://dicenca.jodomodev.com/api";
 
 const axiosInstance = axios.create({
