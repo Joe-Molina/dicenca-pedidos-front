@@ -46,6 +46,7 @@ export default function AdminClient() {
                 </div>
                 <Button
                   variant='ghost'
+
                   size='icon'
                   onClick={() => {
                     deleteClientMutation.mutateAsync(client.id, {

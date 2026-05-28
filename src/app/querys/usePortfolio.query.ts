@@ -10,7 +10,7 @@ const getAllPortfolios = async (): Promise<PortFolioProps[]> => {
 const createPortfolio = async ({
   name,
 }: Omit<PortFolioProps, "id">): Promise<PortFolioProps> => {
-  const data = (await api.post(`/portfolio/create`, name)).data;
+  const data = (await api.post(`/portfolio/create`, { name })).data;
   return data;
 };
 
@@ -19,7 +19,7 @@ const editPortfolio = async (
 ): Promise<PortFolioProps> => {
   const data = (
     await api.patch(`/portfolio/edit/${updatedPortfolio.id}`, {
-      updatedPortfolio,
+      name: updatedPortfolio.name,
     })
   ).data;
   return data;

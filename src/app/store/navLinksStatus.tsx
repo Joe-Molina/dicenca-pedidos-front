@@ -3,6 +3,7 @@ import { create } from "zustand";
 const navLinksStart = [
   { name: "Inicio", href: "/admin", current: true },
   { name: "crear pedido", href: "/admin/order", current: false },
+  { name: "Portafolios", href: "/admin/portfolio", current: false },
   { name: "Productos", href: "/admin/product", current: false },
   { name: "Vendedores", href: "/admin/seller", current: false },
   { name: "Zonas", href: "/admin/zone", current: false },
@@ -12,7 +13,8 @@ const navLinksStart = [
 
 const navLinks = [
   { name: "Inicio", href: "/admin", current: false },
-  { name: "crear pedido", href: "/admin/orders", current: false },
+  { name: "crear pedido", href: "/admin/order", current: false },
+  { name: "Portafolios", href: "/admin/portfolio", current: false },
   { name: "Productos", href: "/admin/product", current: false },
   { name: "Vendedores", href: "/admin/seller", current: false },
   { name: "Zonas", href: "/admin/zone", current: false },

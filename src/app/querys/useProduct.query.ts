@@ -10,7 +10,7 @@ const getAllProducts = async (): Promise<ProductProps[]> => {
 const createProduct = async (
   newProduct: Omit<ProductProps, "id">
 ): Promise<ProductProps> => {
-  const data = (await api.post(`/product/create`, { newProduct })).data;
+  const data = (await api.post(`/product/create`, newProduct)).data;
   return data;
 };
 
@@ -18,7 +18,7 @@ const editProduct = async (
   updatedProduct: Partial<ProductProps>
 ): Promise<ProductProps> => {
   const data = (
-    await api.patch(`/product/edit/${updatedProduct.id}`, { updatedProduct })
+    await api.patch(`/product/edit/${updatedProduct.id}`, updatedProduct)
   ).data;
   return data;
 };
