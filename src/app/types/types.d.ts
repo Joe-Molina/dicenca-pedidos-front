@@ -67,6 +67,11 @@ export interface CreateOrderProps {
   details: Omit<OrderDetailsProps[], "id", "orderId" | "gr" | "total">;
 }
 
+export interface TypeInvoiceProps {
+  id: number;
+  name: "Factura" | "Nota de entrega" | "Ambas";
+  description: string;
+}
 interface UserPayload {
   id: number;
   username: string;

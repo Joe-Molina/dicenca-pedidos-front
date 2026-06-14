@@ -23,15 +23,15 @@ export function SelectClient() {
   }
 
   return (
-    <div className='flex flex-col gap-1'>
+    <div className="flex flex-col gap-1">
       <Label>Cliente:</Label>
       <Select
         onValueChange={(value) =>
           setClient(clients!.find((client) => client.id == Number(value))!)
         }
       >
-        <SelectTrigger className='w-full'>
-          <SelectValue placeholder='Selecciona un Cliente' />
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Selecciona un Cliente" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
@@ -40,7 +40,7 @@ export function SelectClient() {
               .filter((client) => client.zoneId == zone!.id)
               .map((client) => (
                 <SelectItem key={client.id} value={client.id.toString()}>
-                  {client.cod_sunagro}
+                  {client.company_name}
                 </SelectItem>
               ))}
           </SelectGroup>
