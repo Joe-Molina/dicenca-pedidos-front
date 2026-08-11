@@ -39,6 +39,9 @@ export default function Home() {
                 note={order.notes}
                 total={orderTotal}
                 status={order.status}
+                orderDetails={order.orderDetails}
+                createdAt={order.createdAt}
+                updatedAt={order.updatedAt}
               />
             );
           })

@@ -15,6 +15,7 @@ import {
   ChevronDown,
   LogOut,
   Home,
+  ClipboardList, // Importamos ClipboardList para el historial
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -58,12 +59,14 @@ export default function DashboardLayout({
         return <LayoutDashboard className='size-5 shrink-0' />;
       case "crear pedido":
         return <PlusCircle className='size-5 shrink-0' />;
+      case "historial":
+        return <ClipboardList className='size-5 shrink-0' />; // Ícono para el historial
       case "portafolios":
         return <Briefcase className='size-5 shrink-0' />;
       case "productos":
         return <Package className='size-5 shrink-0' />;
-      case "vendedores":
-        return <Users className='size-5 shrink-0' />;
+      case "usuarios":
+        return <Users className='size-5 shrink-0' />; // Ícono para la gestión de usuarios
       case "zonas":
         return <MapPin className='size-5 shrink-0' />;
       case "clientes":

@@ -47,6 +47,7 @@ export interface OrderProps {
   id: number;
   clientId: number;
   createdAt: Date;
+  updatedAt?: Date; // Campo para rastrear la última actualización de estado
   notes: string;
   status: boolean;
   orderDetails: OrderDetailsProps[];

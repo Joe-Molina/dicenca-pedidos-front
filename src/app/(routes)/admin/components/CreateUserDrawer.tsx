@@ -2,16 +2,25 @@ import React, { useState } from "react";
 import { DrawerCreate } from "./createDrawer";
 import { DrawerFooter } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { UserProps } from "@/app/types/types";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useSellersQuery } from "@/app/querys/useSellers.query";
+import { useUsersQuery } from "@/app/querys/useUsers.query";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-export default function CreateSellerDrawer() {
-  const { createSellerMutation } = useSellersQuery();
+export default function CreateUserDrawer() {
+  const { createUserMutation } = useUsersQuery();
 
   // Controlamos la apertura del cajón (drawer)
   const [open, setOpen] = useState(false);
@@ -19,38 +28,39 @@ export default function CreateSellerDrawer() {
   const {
     register,
     handleSubmit,
+    control,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<Omit<UserProps, "id" | "role">>({
+  } = useForm<Omit<UserProps, "id">>({
     defaultValues: {
       username: "",
       password: "",
       name: "",
       lastname: "",
       email: "",
+      role: "seller", // Por defecto Vendedor
     },
   });
 
-  // Envío del formulario de creación de vendedor
-  const onSubmit = async (data: Omit<UserProps, "id" | "role">) => {
+  // Envío del formulario de creación de usuario
+  const onSubmit = async (data: Omit<UserProps, "id">) => {
     try {
-      await createSellerMutation.mutateAsync(data, {
+      await createUserMutation.mutateAsync(data, {
         onSuccess: () => {
-          toast.success("Vendedor creado exitosamente", {
+          toast.success("Usuario creado exitosamente", {
             description: new Date().toLocaleString(),
           });
           reset(); // Limpia los inputs del formulario
           setOpen(false); // Cierra el cajón solo si se crea con éxito
         },
         onError: (err: any) => {
-          // Extraemos el error del backend si existe
           const errorMsg =
             err.response?.data?.alert ||
             err.response?.data?.error ||
             err.message ||
-            "Error desconocido al crear vendedor";
+            "Error desconocido al registrar usuario";
           
-          toast.error("Error al crear vendedor", {
+          toast.error("Error al crear usuario", {
             description: errorMsg,
           });
         },
@@ -61,9 +71,43 @@ export default function CreateSellerDrawer() {
   };
 
   return (
-    <DrawerCreate trigger="Crear Vendedor" open={open} onOpenChange={setOpen}>
-      {/* Formulario para registrar un vendedor */}
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 py-3">
+    <DrawerCreate trigger="Crear Usuario" open={open} onOpenChange={setOpen}>
+      {/* Formulario para registrar un usuario del sistema */}
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 py-3 overflow-y-auto max-h-[75vh]">
+        
+        {/* Campo: Rol */}
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="role" className="text-xs font-semibold text-neutral-600">
+            Rol de Usuario
+          </Label>
+          <Controller
+            name="role"
+            control={control}
+            rules={{ required: "El rol es obligatorio" }}
+            render={({ field }) => (
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+              >
+                <SelectTrigger className="w-full border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-xs text-xs">
+                  <SelectValue placeholder="Selecciona un rol" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Roles del Sistema</SelectLabel>
+                    <SelectItem value="seller">Vendedor (Seller)</SelectItem>
+                    <SelectItem value="admin">Administrador (Admin)</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          />
+          {errors.role && (
+            <span className="text-[10px] text-red-500 font-semibold">{errors.role.message}</span>
+          )}
+        </div>
+
+        {/* Campo: Nombre */}
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="name" className="text-xs font-semibold text-neutral-600">
             Nombre
@@ -72,7 +116,7 @@ export default function CreateSellerDrawer() {
             id="name"
             type="text"
             placeholder="Ej. José"
-            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-sm shadow-xs"
+            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
             {...register("name", { required: "El nombre es obligatorio" })}
           />
           {errors.name && (
@@ -80,6 +124,7 @@ export default function CreateSellerDrawer() {
           )}
         </div>
 
+        {/* Campo: Apellido */}
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="lastname" className="text-xs font-semibold text-neutral-600">
             Apellido
@@ -88,7 +133,7 @@ export default function CreateSellerDrawer() {
             id="lastname"
             type="text"
             placeholder="Ej. Molina"
-            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-sm shadow-xs"
+            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
             {...register("lastname", { required: "El apellido es obligatorio" })}
           />
           {errors.lastname && (
@@ -96,6 +141,7 @@ export default function CreateSellerDrawer() {
           )}
         </div>
 
+        {/* Campo: Usuario */}
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="username" className="text-xs font-semibold text-neutral-600">
             Usuario de Login
@@ -104,7 +150,7 @@ export default function CreateSellerDrawer() {
             id="username"
             type="text"
             placeholder="Ej. jmolina"
-            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-sm shadow-xs"
+            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
             {...register("username", { required: "El nombre de usuario es obligatorio" })}
           />
           {errors.username && (
@@ -112,6 +158,7 @@ export default function CreateSellerDrawer() {
           )}
         </div>
 
+        {/* Campo: Email */}
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="email" className="text-xs font-semibold text-neutral-600">
             Correo Electrónico
@@ -120,7 +167,7 @@ export default function CreateSellerDrawer() {
             id="email"
             type="email"
             placeholder="Ej. jose.molina@dicenca.com"
-            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-sm shadow-xs"
+            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
             {...register("email", { 
               required: "El correo electrónico es obligatorio",
               pattern: {
@@ -134,6 +181,7 @@ export default function CreateSellerDrawer() {
           )}
         </div>
 
+        {/* Campo: Contraseña */}
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="password" className="text-xs font-semibold text-neutral-600">
             Contraseña
@@ -142,7 +190,7 @@ export default function CreateSellerDrawer() {
             id="password"
             type="password"
             placeholder="Mínimo 6 caracteres"
-            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-sm shadow-xs"
+            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
             {...register("password", { 
               required: "La contraseña es obligatoria",
               minLength: {
@@ -158,11 +206,11 @@ export default function CreateSellerDrawer() {
 
         <DrawerFooter className="px-0 pt-4">
           <Button
-            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium shadow-md transition-all duration-200 rounded-lg"
+            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium shadow-md transition-all duration-200 rounded-lg text-xs"
             type="submit"
             disabled={isSubmitting}
           >
-            {isSubmitting ? <Spinner className="h-4 w-4" /> : "Guardar Vendedor"}
+            {isSubmitting ? <Spinner className="h-4 w-4" /> : "Guardar Usuario"}
           </Button>
         </DrawerFooter>
       </form>

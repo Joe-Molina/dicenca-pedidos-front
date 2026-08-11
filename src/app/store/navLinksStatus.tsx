@@ -3,23 +3,23 @@ import { create } from "zustand";
 const navLinksStart = [
   { name: "Inicio", href: "/admin", current: true },
   { name: "crear pedido", href: "/admin/order", current: false },
+  { name: "Historial", href: "/admin/history", current: false }, // Enlace añadido para el historial
   { name: "Portafolios", href: "/admin/portfolio", current: false },
   { name: "Productos", href: "/admin/product", current: false },
-  { name: "Vendedores", href: "/admin/seller", current: false },
+  { name: "Usuarios", href: "/admin/users", current: false }, // Cambiado a Gestión de Usuarios
   { name: "Zonas", href: "/admin/zone", current: false },
   { name: "Clientes", href: "/admin/client", current: false },
-  // { name: "Perfil", href: "#perfil", current: false },
 ];
 
 const navLinks = [
   { name: "Inicio", href: "/admin", current: false },
   { name: "crear pedido", href: "/admin/order", current: false },
+  { name: "Historial", href: "/admin/history", current: false }, // Enlace añadido para el historial
   { name: "Portafolios", href: "/admin/portfolio", current: false },
   { name: "Productos", href: "/admin/product", current: false },
-  { name: "Vendedores", href: "/admin/seller", current: false },
+  { name: "Usuarios", href: "/admin/users", current: false }, // Cambiado a Gestión de Usuarios
   { name: "Zonas", href: "/admin/zone", current: false },
   { name: "Clientes", href: "/admin/client", current: false },
-  // { name: "Perfil", href: "#perfil", current: false },
 ];
 
 interface LinkProps {
