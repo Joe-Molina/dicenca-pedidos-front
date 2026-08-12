@@ -14,12 +14,11 @@ const createZone = async (
   return data;
 };
 
+// Petición para editar los datos de una zona en el backend
 const editZone = async (
   updatedZone: Partial<ZoneProps>
 ): Promise<ZoneProps> => {
-  const data = (
-    await api.patch(`/zone/edit/${updatedZone.id}`, { updatedZone })
-  ).data;
+  const data = (await api.patch(`/zone/edit`, updatedZone)).data;
   return data;
 };
 

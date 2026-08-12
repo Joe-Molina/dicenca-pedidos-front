@@ -14,17 +14,19 @@ const createSeller = async (
   return data;
 };
 
+// Petición para editar los datos de un vendedor en el backend
 const editSeller = async (
   updatedSeller: Partial<UserProps>
 ): Promise<UserProps> => {
   const data = (
-    await api.patch(`/seller/edit/${updatedSeller.id}`, { updatedSeller })
+    await api.patch(`/user/edit/${updatedSeller.id}`, { updatedSeller })
   ).data;
   return data;
 };
 
+// Petición para eliminar un vendedor en el backend
 const deleteSeller = async (id: number): Promise<UserProps> => {
-  const data = (await api.delete(`/seller/delete/${id}`)).data;
+  const data = (await api.delete(`/user/delete/${id}`)).data;
   return data;
 };
 

@@ -14,12 +14,11 @@ const createClient = async (
   return data;
 };
 
+// Petición para editar los datos de un cliente en el backend
 const editClient = async (
   updatedClient: Partial<ClientProps>
 ): Promise<ClientProps> => {
-  const data = (
-    await api.put(`/client/edit/${updatedClient.id}`, { updatedClient })
-  ).data;
+  const data = (await api.patch(`/client/edit`, updatedClient)).data;
   return data;
 };
 const deleteClient = async (id: number): Promise<ClientProps> => {

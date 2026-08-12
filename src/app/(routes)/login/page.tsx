@@ -34,7 +34,7 @@ export default function Page() {
       <div className='flex flex-col md:flex-row rounded-md shadow-md overflow-hidden h-full border border-neutral-200'>
         <div className='md:w-1/2 h-1/2 md:h-full bg-neutral-900 text-white p-10 flex flex-col justify-between'>
           <span className='text-2xl font-semibold'>
-            Pedidos-App(nombre por definir xd)
+            Diacenca Ventas
           </span>
           <p className='text-xl'>
             ¡Descubre el futuro de las ventas online! Ahorra tiempo, aumenta tus

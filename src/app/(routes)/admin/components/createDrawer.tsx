@@ -15,12 +15,16 @@ import {
 export function DrawerCreate({
   trigger,
   children,
+  open,
+  onOpenChange,
 }: {
   trigger: string;
   children: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }) {
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>
         <Button variant="outline">{trigger}</Button>
       </DrawerTrigger>
