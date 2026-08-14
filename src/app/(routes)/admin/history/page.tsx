@@ -101,7 +101,7 @@ export default function AdminHistoryPage() {
       }
 
       // 4. Filtro por Vendedor asignado al cliente
-      if (selectedSellerId) {
+      if (selectedSellerId && selectedSellerId !== "all-sellers") {
         const sellerZonesList = zones?.filter((z) => z.userId === Number(selectedSellerId)) || [];
         const sellerZoneIds = sellerZonesList.map((z) => z.id);
         if (!sellerZoneIds.includes(client.zoneId)) {
@@ -110,7 +110,7 @@ export default function AdminHistoryPage() {
       }
 
       // 5. Filtro por Producto incluido en la orden
-      if (selectedProductId) {
+      if (selectedProductId && selectedProductId !== "all-products") {
         const hasProduct = order.orderDetails?.some(
           (detail) => detail.productId === Number(selectedProductId)
         );
@@ -120,6 +120,7 @@ export default function AdminHistoryPage() {
       return true;
     });
   }, [orders, clients, zones, searchQuery, startDate, endDate, selectedSellerId, selectedProductId, statusTab]);
+
 
   // Función para reiniciar los filtros de búsqueda
   const handleResetFilters = () => {

@@ -157,9 +157,9 @@ export default function AdminZones() {
       {/* Grid de Estadísticas */}
       <div className='grid grid-cols-1 gap-4 sm:grid-cols-3'>
         <div className='relative overflow-hidden rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md'>
-          <div className='absolute top-0 right-0 -mr-4 -mt-4 h-24 w-24 rounded-full bg-indigo-500/5 blur-xl'></div>
+          <div className='absolute top-0 right-0 -mr-4 -mt-4 h-24 w-24 rounded-full bg-blue-500/5 blur-xl'></div>
           <div className='flex items-center gap-4'>
-            <div className='flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600'>
+            <div className='flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600'>
               <MapPin className='h-6 w-6' />
             </div>
             <div>
@@ -279,10 +279,10 @@ export default function AdminZones() {
                           />
                         ) : (
                           <div className='flex items-center gap-3'>
-                            <div className='flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-neutral-50 text-neutral-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors duration-300'>
+                            <div className='flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-neutral-50 text-neutral-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors duration-300'>
                               <MapPin className='h-4.5 w-4.5' />
                             </div>
-                            <span className='font-semibold text-neutral-800 transition-colors group-hover:text-indigo-600 duration-300'>
+                            <span className='font-semibold text-neutral-800 transition-colors group-hover:text-blue-600 duration-300'>
                               {zone.names}
                             </span>
                           </div>
@@ -313,7 +313,7 @@ export default function AdminZones() {
                             </SelectContent>
                           </Select>
                         ) : (
-                          <span className='inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-600'>
+                          <span className='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-600'>
                             <UserCheck className='h-3 w-3' />
                             {seller?.name || "Sin Vendedor"}
                           </span>

@@ -47,7 +47,7 @@ export default function AdminProduct() {
     const [selectedPortfolioFilter, setSelectedPortfolioFilter] = useState("all");
     const [stockFilter, setStockFilter] = useState<"all" | "in_stock" | "low_stock" | "out_of_stock">("all");
 
-    // Inline Editing State - tracks the product ID currently being edited inline
+
     const [editingId, setEditingId] = useState<number | null>(null);
     const [editForm, setEditForm] = useState({
         name: "",
@@ -58,14 +58,14 @@ export default function AdminProduct() {
     });
     const [isSaving, setIsSaving] = useState(false);
 
-    // Filters products based on search input, portfolio, and stock status
+    // Filtro de productos
     const filteredProducts = useMemo(() => {
         if (!products) return [];
         return products.filter((product) => {
             const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesPortfolio =
                 selectedPortfolioFilter === "all" || product.portafolioId === Number(selectedPortfolioFilter);
-            
+
             const productStock = product.stock ?? 0;
             let matchesStock = true;
             if (stockFilter === "out_of_stock") {
@@ -80,7 +80,7 @@ export default function AdminProduct() {
         });
     }, [products, searchTerm, selectedPortfolioFilter, stockFilter]);
 
-    // Calculations for inventory statistics
+    // Estadísticas
     const stats = useMemo(() => {
         const totalProducts = products?.length || 0;
         const totalStock = products?.reduce((acc, p) => acc + (p.stock || 0), 0) || 0;
@@ -98,7 +98,7 @@ export default function AdminProduct() {
         };
     }, [products]);
 
-    // Handlers for Inline Edit
+    // Editar producto
     const handleStartEdit = (product: ProductProps) => {
         setEditingId(product.id);
         setEditForm({
@@ -200,7 +200,7 @@ export default function AdminProduct() {
                 </div>
             </div>
 
-            {/* Stats Dashboard Grid */}
+            {/* Estadisticas del Dashboard */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {/* Total Products Card */}
                 <div className="relative overflow-hidden rounded-2xl border border-neutral-100 bg-white p-5 shadow-xs transition-all duration-300 hover:shadow-md">
@@ -223,10 +223,10 @@ export default function AdminProduct() {
                     </div>
                 </div>
 
-                {/* Total Stock Units Card */}
+                {/* Total Stock card*/}
                 <div className="relative overflow-hidden rounded-2xl border border-neutral-100 bg-white p-5 shadow-xs transition-all duration-300 hover:shadow-md">
                     <div className="flex items-center gap-4">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
                             <Boxes className="h-5.5 w-5.5" />
                         </div>
                         <div>
@@ -244,7 +244,7 @@ export default function AdminProduct() {
                     </div>
                 </div>
 
-                {/* Low Stock Alert Card (<= 10) */}
+                {/* Alerta de Stock Bajo}*/}
                 <div className="relative overflow-hidden rounded-2xl border border-amber-100 bg-amber-50/30 p-5 shadow-xs transition-all duration-300 hover:shadow-md">
                     <div className="flex items-center gap-4">
                         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
@@ -252,7 +252,7 @@ export default function AdminProduct() {
                         </div>
                         <div>
                             <p className="text-[10px] font-bold uppercase tracking-wider text-amber-700">
-                                Stock Bajo (≤ 10 bultos)
+                                Stock Bajo (10 bultos)
                             </p>
                             <h3 className="text-xl font-bold text-amber-800 mt-0.5">
                                 {isLoading ? (
@@ -265,7 +265,7 @@ export default function AdminProduct() {
                     </div>
                 </div>
 
-                {/* Out of Stock Card (0) */}
+                {/* sin stock Card*/}
                 <div className="relative overflow-hidden rounded-2xl border border-red-100 bg-red-50/30 p-5 shadow-xs transition-all duration-300 hover:shadow-md">
                     <div className="flex items-center gap-4">
                         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-100 text-red-600">
@@ -287,9 +287,9 @@ export default function AdminProduct() {
                 </div>
             </div>
 
-            {/* Control Bar (Search + Advanced Filters) */}
+            {/* barra de control */}
             <div className="flex flex-col gap-4 md:flex-row md:items-center rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm">
-                {/* Search Bar */}
+                {/* Buscar */}
                 <div className="relative flex-1">
                     <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-400" />
                     <Input
@@ -309,7 +309,7 @@ export default function AdminProduct() {
                     )}
                 </div>
 
-                {/* Portfolio Dropdown Filter */}
+                {/* Filtrar por Portafolio */}
                 <div className="w-full md:w-56">
                     <Select
                         value={selectedPortfolioFilter}
@@ -332,7 +332,7 @@ export default function AdminProduct() {
                     </Select>
                 </div>
 
-                {/* Stock Status Filter */}
+                {/* Filtro de Estado de Stock */}
                 <div className="w-full md:w-56">
                     <Select
                         value={stockFilter}
@@ -353,7 +353,7 @@ export default function AdminProduct() {
                 </div>
             </div>
 
-            {/* Products Main Table */}
+            {/* Tabla Principal de Productos*/}
             {isLoading ? (
                 <div className="flex flex-col gap-3">
                     {[...Array(6)].map((_, i) => (
@@ -438,7 +438,7 @@ export default function AdminProduct() {
                                                 )}
                                             </td>
 
-                                            {/* Portfolio Column */}
+                                            {/* Columna de Portafolio */}
                                             <td className="px-6 py-4">
                                                 {isEditing ? (
                                                     <Select
@@ -465,7 +465,7 @@ export default function AdminProduct() {
                                                 )}
                                             </td>
 
-                                            {/* Stock / Cantidad Column */}
+                                            {/* Columna de Stock / Cantidad */}
                                             <td className="px-6 py-4 text-center">
                                                 {isEditing ? (
                                                     <div className="flex items-center justify-center gap-1">
@@ -500,7 +500,7 @@ export default function AdminProduct() {
                                                 )}
                                             </td>
 
-                                            {/* Weight Column */}
+                                            {/* Columna de Peso */}
                                             <td className="px-6 py-4 text-right">
                                                 {isEditing ? (
                                                     <Input
@@ -537,7 +537,7 @@ export default function AdminProduct() {
                                                 )}
                                             </td>
 
-                                            {/* Actions Column */}
+                                            {/* Columna de Acciones */}
                                             <td className="px-6 py-4 text-center">
                                                 <div className="flex items-center justify-center gap-1">
                                                     {isEditing ? (

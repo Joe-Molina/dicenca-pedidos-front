@@ -166,7 +166,7 @@ export default function CreateProductDrawer() {
         <DrawerFooter className="px-0 pt-4">
           <DrawerClose asChild>
             <Button
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold shadow-md transition-all duration-200"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm transition-all duration-200"
               type="submit"
             >
               Guardar Producto

@@ -206,7 +206,7 @@ export default function CreateUserDrawer() {
 
         <DrawerFooter className="px-0 pt-4">
           <Button
-            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium shadow-md transition-all duration-200 rounded-lg text-xs"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-all duration-200 rounded-xl text-xs h-10"
             type="submit"
             disabled={isSubmitting}
           >

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { format } from "@formkit/tempo";
 import { useOrdersQuery } from "@/app/querys/useOrders.query";
 import { useClientsQuery } from "@/app/querys/useClients.query";
 import { useProductQuery } from "@/app/querys/useProduct.query";
@@ -40,7 +39,7 @@ export default function AdminDashboard() {
   const todayStats = useMemo(() => {
     if (!orders) return { sales: 0, count: 0 };
     const today = new Date().toDateString();
-    
+
     // Filtramos las órdenes creadas el día de hoy
     const todayOrders = orders.filter(
       (order) => new Date(order.createdAt).toDateString() === today
@@ -148,7 +147,7 @@ export default function AdminDashboard() {
   // 6. Cálculo de Top Clientes de este Mes (según monto comprado)
   const topClientsThisMonth = useMemo(() => {
     if (!orders || !clients) return [];
-    
+
     const now = new Date();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
@@ -193,6 +192,18 @@ export default function AdminDashboard() {
       .slice(0, 5); // Top 5 clientes del mes
   }, [orders, clients]);
 
+  // Fecha actual formateada en español (Ej: "Viernes, 14 de agosto de 2026")
+  const currentDateSpanish = useMemo(() => {
+    const formatter = new Intl.DateTimeFormat("es-ES", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+    const formatted = formatter.format(new Date());
+    return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+  }, []);
+
   if (isLoading) {
     return <SpinnerGlobal />;
   }
@@ -208,8 +219,8 @@ export default function AdminDashboard() {
           <h1 className='bg-gradient-to-r from-neutral-800 to-neutral-600 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
             Panel General
           </h1>
-          <p className='text-sm font-medium text-neutral-500 capitalize'>
-            {format(new Date(), "full")}
+          <p className='text-sm font-medium text-neutral-500'>
+            {currentDateSpanish}
           </p>
         </div>
         <div className='flex items-center gap-2'>
@@ -278,9 +289,9 @@ export default function AdminDashboard() {
 
         {/* Pedidos Totales de Hoy */}
         <div className='relative overflow-hidden rounded-2xl border border-neutral-100 bg-white p-5 shadow-xs transition-all duration-300 hover:shadow-md'>
-          <div className='absolute top-0 right-0 -mr-4 -mt-4 h-20 w-20 rounded-full bg-indigo-500/5 blur-lg'></div>
+          <div className='absolute top-0 right-0 -mr-4 -mt-4 h-20 w-20 rounded-full bg-blue-500/5 blur-lg'></div>
           <div className='flex items-center gap-4'>
-            <div className='flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600'>
+            <div className='flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600'>
               <Package className='h-5.5 w-5.5' />
             </div>
             <div>
@@ -334,11 +345,11 @@ export default function AdminDashboard() {
       {/* Enlaces a listados de órdenes */}
       <div className='flex flex-col gap-3 sm:flex-row'>
         <Link href='/admin/order/pending' className='grow'>
-          <Button className='w-full bg-blue-600 hover:bg-blue-700 font-bold rounded-xl text-xs shadow-xs'>
+          <Button className='w-full bg-blue-600 hover:bg-blue-700 font-bold rounded-xl text-xs shadow-xs text-white'>
             Ver Pedidos Pendientes ({pendingOrders.length})
           </Button>
         </Link>
-        <Button className='grow bg-neutral-800 hover:bg-neutral-900 font-bold rounded-xl text-xs shadow-xs'>
+        <Button variant='outline' className='grow border-blue-200 text-blue-700 hover:bg-blue-50 bg-white font-bold rounded-xl text-xs shadow-xs'>
           Ver Pedidos Listos ({orders ? orders.length - pendingOrders.length : 0})
         </Button>
       </div>
@@ -426,7 +437,7 @@ export default function AdminDashboard() {
           <div className='rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs'>
             <div className='flex items-center justify-between pb-4 border-b border-neutral-50'>
               <div className='flex items-center gap-2.5'>
-                <Boxes className='h-5 w-5 text-indigo-600' />
+                <Boxes className='h-5 w-5 text-blue-600' />
                 <h3 className='text-base font-bold text-neutral-800'>
                   Estado del Stock
                 </h3>
@@ -443,7 +454,7 @@ export default function AdminDashboard() {
               {inventoryStats.outOfStock.length === 0 && inventoryStats.lowStock.length === 0 ? (
                 <div className='flex items-center gap-2.5 p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs font-semibold'>
                   <CheckCircle2 className='h-4 w-4 text-emerald-600 shrink-0' />
-                  <span>Todos los productos tienen stock saludable (&gt; 10 bultos).</span>
+                  <span>Todos los productos tienen stock saludable.</span>
                 </div>
               ) : (
                 <>

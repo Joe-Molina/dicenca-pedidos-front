@@ -22,6 +22,16 @@ import {
 import { useZonesQuery } from "@/app/querys/useZones.query";
 import { Spinner } from "@/components/ui/spinner";
 
+interface ClientFormValues {
+  company_name: string;
+  name: string;
+  rif: string;
+  address: string;
+  cod_sunagro?: string;
+  contact?: string;
+  zoneId: string;
+}
+
 export default function CreateClientDrawer() {
   const { createClientMutation } = useClientsQuery();
   const {
@@ -37,26 +47,32 @@ export default function CreateClientDrawer() {
     control,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<Omit<ClientProps, "id">>({
+  } = useForm<ClientFormValues>({
     defaultValues: {
       address: "",
-      cod_sunagro: 0,
-      contact: 0,
+      cod_sunagro: "",
+      contact: "",
       rif: "",
-      zoneId: 0,
+      zoneId: "",
       company_name: "",
       name: "",
     },
   });
 
   // Envío del formulario de creación de cliente
-  const onSubmit = async (data: Omit<ClientProps, "id">) => {
-    data.cod_sunagro = Number(data.cod_sunagro);
-    data.contact = Number(data.contact);
-    data.zoneId = Number(data.zoneId);
+  const onSubmit = async (data: ClientFormValues) => {
+    const payload: Omit<ClientProps, "id"> = {
+      name: data.name,
+      company_name: data.company_name,
+      address: data.address,
+      rif: data.rif,
+      cod_sunagro: Number(data.cod_sunagro) || 0,
+      contact: data.contact ? String(data.contact).trim() : "",
+      zoneId: Number(data.zoneId),
+    };
 
     try {
-      await createClientMutation.mutateAsync(data, {
+      await createClientMutation.mutateAsync(payload, {
         onSuccess: () => {
           toast.success("Cliente creado exitosamente", {
             description: new Date().toLocaleString(),
@@ -133,9 +149,10 @@ export default function CreateClientDrawer() {
           </Label>
           <Input
             id="cod_sunagro"
-            type="number"
+            type="text"
+            inputMode="numeric"
             placeholder="Ej. 1002345"
-            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-sm shadow-xs"
+            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl text-sm shadow-xs"
             {...register("cod_sunagro", { required: "El código Sunagro es obligatorio" })}
           />
           {errors.cod_sunagro && (
@@ -145,18 +162,17 @@ export default function CreateClientDrawer() {
 
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="contact" className="text-xs font-semibold text-neutral-600">
-            Teléfono de Contacto
+            Teléfono de Contacto (11 dígitos, inicia con 0)
           </Label>
           <Input
             id="contact"
-            type="number"
+            type="tel"
+            inputMode="tel"
+            maxLength={11}
             placeholder="Ej. 04121234567"
-            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-sm shadow-xs"
-            {...register("contact", { required: "El teléfono de contacto es obligatorio" })}
+            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl text-sm shadow-xs"
+            {...register("contact")}
           />
-          {errors.contact && (
-            <span className="text-[10px] text-red-500 font-semibold">{errors.contact.message}</span>
-          )}
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -212,7 +228,7 @@ export default function CreateClientDrawer() {
 
         <DrawerFooter className="px-0 pt-4">
           <Button
-            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium shadow-md transition-all duration-200 rounded-lg"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-all duration-200 rounded-xl text-xs h-10"
             type="submit"
             disabled={isSubmitting}
           >

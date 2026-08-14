@@ -78,24 +78,24 @@ export default function SellerLayout({
           <nav className="hidden md:flex items-center gap-6 text-xs font-bold uppercase tracking-wider text-neutral-500">
             <Link
               href="/seller"
-              className={`hover:text-indigo-600 transition-colors ${
-                pathname === "/seller" ? "text-indigo-600 font-extrabold" : ""
+              className={`hover:text-blue-600 transition-colors ${
+                pathname === "/seller" ? "text-blue-600 font-extrabold" : ""
               }`}
             >
               Inicio
             </Link>
             <Link
               href="/seller/order"
-              className={`hover:text-indigo-600 transition-colors ${
-                pathname === "/seller/order" ? "text-indigo-600 font-extrabold" : ""
+              className={`hover:text-blue-600 transition-colors ${
+                pathname === "/seller/order" ? "text-blue-600 font-extrabold" : ""
               }`}
             >
               Crear Pedido
             </Link>
             <Link
               href="/seller/history"
-              className={`hover:text-indigo-600 transition-colors ${
-                pathname === "/seller/history" ? "text-indigo-600 font-extrabold" : ""
+              className={`hover:text-blue-600 transition-colors ${
+                pathname === "/seller/history" ? "text-blue-600 font-extrabold" : ""
               }`}
             >
               Historial
@@ -111,7 +111,7 @@ export default function SellerLayout({
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center gap-2.5 p-1 rounded-xl hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all duration-200 focus:outline-none cursor-pointer"
               >
-                <div className="size-8 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center shadow-sm text-xs uppercase">
+                <div className="size-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center shadow-sm text-xs uppercase">
                   {userInitials}
                 </div>
                 <div className="hidden sm:flex flex-col items-start text-left">
@@ -179,7 +179,7 @@ export default function SellerLayout({
           <Link
             href="/seller"
             className={`flex flex-col items-center gap-1 text-[10px] font-bold transition-all duration-150 ${
-              pathname === "/seller" ? "text-indigo-600" : "text-gray-400 hover:text-gray-600"
+              pathname === "/seller" ? "text-blue-600" : "text-gray-400 hover:text-gray-600"
             }`}
           >
             <Home className="size-5.5" />
@@ -188,7 +188,7 @@ export default function SellerLayout({
           <Link
             href="/seller/order"
             className={`flex flex-col items-center gap-1 text-[10px] font-bold transition-all duration-150 ${
-              pathname === "/seller/order" ? "text-indigo-600" : "text-gray-400 hover:text-gray-600"
+              pathname === "/seller/order" ? "text-blue-600" : "text-gray-400 hover:text-gray-600"
             }`}
           >
             <PlusCircle className="size-5.5" />
@@ -197,7 +197,7 @@ export default function SellerLayout({
           <Link
             href="/seller/history"
             className={`flex flex-col items-center gap-1 text-[10px] font-bold transition-all duration-150 ${
-              pathname === "/seller/history" ? "text-indigo-600" : "text-gray-400 hover:text-gray-600"
+              pathname === "/seller/history" ? "text-blue-600" : "text-gray-400 hover:text-gray-600"
             }`}
           >
             <ClipboardList className="size-5.5" />

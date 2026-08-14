@@ -22,11 +22,11 @@ interface ControladorStateProps {
   addDetailToOrder: (
     detail: Omit<OrderDetailsProps, "id" | "orderId" | "price" | "gr" | "total">
   ) => void;
-  deleteDetailFromOrder?: (index: number) => void;
+  deleteDetailFromOrder: (index: number) => void;
+  updateDetailQuantity: (index: number, cant: number) => void;
 }
 
-// se una el metodo create para crear un nuevo estado global con zustand
-// que recibe como parametro una funcion fecha con el set que sirve para modificar y actualizar el estado
+// se usa el metodo create para crear un nuevo estado global con zustand
 export const useNewVentaStore = create<ControladorStateProps>((set) => ({
   seller: undefined,
   zone: undefined,
@@ -62,14 +62,25 @@ export const useNewVentaStore = create<ControladorStateProps>((set) => ({
   addDetailToOrder: (
     detail: Omit<OrderDetailsProps, "id" | "orderId" | "price" | "gr" | "total">
   ) => {
-    set((state) => ({
-      order: {
-        ...state.order,
-        details: state.order?.details
-          ? [...state.order.details, detail]
-          : [detail],
-      } as CreateOrderProps,
-    }));
+    set((state) => {
+      const details = state.order?.details ? [...state.order.details] : [];
+      // Si el producto ya existe en la orden, sumamos la cantidad
+      const existingIdx = details.findIndex((d) => d.productId === detail.productId);
+      if (existingIdx >= 0) {
+        details[existingIdx] = {
+          ...details[existingIdx],
+          cant: details[existingIdx].cant + detail.cant,
+        };
+      } else {
+        details.push(detail);
+      }
+      return {
+        order: {
+          ...state.order,
+          details,
+        } as CreateOrderProps,
+      };
+    });
   },
   deleteDetailFromOrder: (index: number) => {
     set((state) => {
@@ -84,11 +95,32 @@ export const useNewVentaStore = create<ControladorStateProps>((set) => ({
       };
     });
   },
+  updateDetailQuantity: (index: number, cant: number) => {
+    set((state) => {
+      if (!state.order || cant <= 0) return state;
+      const newDetails = [...state.order.details];
+      newDetails[index] = {
+        ...newDetails[index],
+        cant,
+      };
+      return {
+        order: {
+          ...state.order,
+          details: newDetails,
+        } as CreateOrderProps,
+      };
+    });
+  },
   reset: () => {
     set({
+      seller: undefined,
       zone: undefined,
       client: undefined,
-      order: undefined,
+      order: {
+        clientId: 0,
+        notes: "",
+        details: [],
+      },
     });
   },
 }));

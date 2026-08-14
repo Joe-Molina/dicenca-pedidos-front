@@ -23,7 +23,7 @@ export interface ClientProps {
   id: number;
   address: string;
   rif: string;
-  contact: number;
+  contact: string | number;
   cod_sunagro: number;
   zoneId: number;
   name: string;
