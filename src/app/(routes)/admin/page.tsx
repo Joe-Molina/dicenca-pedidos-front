@@ -16,8 +16,11 @@ import {
   ShoppingBag,
   TrendingUp,
   TrendingDown,
-  ArrowRight,
   CircleDollarSign,
+  Boxes,
+  AlertCircle,
+  CheckCircle2,
+  ArrowRight,
 } from "lucide-react";
 import { formatCurrency } from "@/app/components/utils/FormatPrice";
 import OrderCard from "./components/OrderCard";
@@ -72,7 +75,33 @@ export default function AdminDashboard() {
     );
   }, [pendingOrders]);
 
-  // 4. Cálculo de Productos Más y Menos Vendidos (acumulando cantidades)
+  // 4. Monitoreo y Alertas de Inventario / Stock
+  const inventoryStats = useMemo(() => {
+    if (!products) {
+      return {
+        totalStock: 0,
+        outOfStock: [],
+        lowStock: [],
+        healthyStockCount: 0,
+      };
+    }
+
+    const totalStock = products.reduce((acc, p) => acc + (p.stock || 0), 0);
+    const outOfStock = products.filter((p) => (p.stock ?? 0) === 0);
+    const lowStock = products.filter(
+      (p) => (p.stock ?? 0) > 0 && (p.stock ?? 0) <= 10
+    );
+    const healthyStockCount = products.filter((p) => (p.stock ?? 0) > 10).length;
+
+    return {
+      totalStock,
+      outOfStock,
+      lowStock,
+      healthyStockCount,
+    };
+  }, [products]);
+
+  // 5. Cálculo de Productos Más y Menos Vendidos (acumulando cantidades)
   const productPerformances = useMemo(() => {
     if (!orders || !products) return { top: [], least: null };
 
@@ -102,6 +131,7 @@ export default function AdminDashboard() {
         name: prod?.name || `Producto #${id}`,
         quantity: qty,
         price: prod?.price || 0,
+        stock: prod?.stock ?? 0,
       };
     });
 
@@ -115,7 +145,7 @@ export default function AdminDashboard() {
     return { top, least };
   }, [orders, products]);
 
-  // 5. Cálculo de Top Clientes de este Mes (según monto comprado)
+  // 6. Cálculo de Top Clientes de este Mes (según monto comprado)
   const topClientsThisMonth = useMemo(() => {
     if (!orders || !clients) return [];
     
@@ -191,7 +221,42 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Grid de Tarjetas Estadísticas */}
+      {/* Alerta Destacada de Stock en caso de productos agotados o críticos */}
+      {(inventoryStats.outOfStock.length > 0 || inventoryStats.lowStock.length > 0) && (
+        <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 shadow-xs'>
+          <div className='flex items-center gap-3'>
+            <div className='p-2 rounded-xl bg-amber-100 text-amber-700 shrink-0'>
+              <AlertTriangle className='h-5 w-5' />
+            </div>
+            <div>
+              <p className='text-xs font-bold'>
+                Atención con el inventario:{" "}
+                {inventoryStats.outOfStock.length > 0 && (
+                  <span className='text-red-700 font-extrabold'>
+                    {inventoryStats.outOfStock.length} {inventoryStats.outOfStock.length === 1 ? "producto agotado" : "productos agotados"}{" "}
+                  </span>
+                )}
+                {inventoryStats.outOfStock.length > 0 && inventoryStats.lowStock.length > 0 && "y "}
+                {inventoryStats.lowStock.length > 0 && (
+                  <span className='text-amber-800 font-extrabold'>
+                    {inventoryStats.lowStock.length} {inventoryStats.lowStock.length === 1 ? "producto con stock bajo (≤ 10)" : "productos con stock bajo (≤ 10)"}
+                  </span>
+                )}
+              </p>
+              <p className='text-[11px] text-amber-700 font-medium'>
+                Revisa el catálogo para reabastecer existencias y evitar pérdidas de ventas.
+              </p>
+            </div>
+          </div>
+          <Link href='/admin/product'>
+            <Button variant='outline' className='border-amber-300 bg-white hover:bg-amber-100 text-amber-900 text-xs font-bold rounded-xl shadow-xs'>
+              Gestionar Stock <ArrowRight className='h-3.5 w-3.5 ml-1' />
+            </Button>
+          </Link>
+        </div>
+      )}
+
+      {/* Grid de Tarjetas Estadísticas Principales */}
       <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4'>
         {/* Ventas Globales de Hoy */}
         <div className='relative overflow-hidden rounded-2xl border border-neutral-100 bg-white p-5 shadow-xs transition-all duration-300 hover:shadow-md'>
@@ -247,19 +312,19 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Pedidos Atrasados (+2 días) */}
+        {/* Total Bultos en Stock */}
         <div className='relative overflow-hidden rounded-2xl border border-neutral-100 bg-white p-5 shadow-xs transition-all duration-300 hover:shadow-md'>
-          <div className='absolute top-0 right-0 -mr-4 -mt-4 h-20 w-20 rounded-full bg-red-500/5 blur-lg'></div>
+          <div className='absolute top-0 right-0 -mr-4 -mt-4 h-20 w-20 rounded-full bg-emerald-500/5 blur-lg'></div>
           <div className='flex items-center gap-4'>
-            <div className='flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-red-600'>
-              <AlertTriangle className='h-5.5 w-5.5' />
+            <div className='flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600'>
+              <Boxes className='h-5.5 w-5.5' />
             </div>
             <div>
               <p className='text-[10px] font-bold uppercase tracking-wider text-neutral-400'>
-                Pedidos Atrasados (+2d)
+                Inventario Total
               </p>
-              <h3 className='text-xl font-bold text-red-600 mt-0.5'>
-                {delayedOrders.length}
+              <h3 className='text-xl font-bold text-neutral-800 mt-0.5'>
+                {inventoryStats.totalStock.toLocaleString()} bultos
               </h3>
             </div>
           </div>
@@ -355,8 +420,73 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Columna Derecha (Productos más vendidos y menos vendidos) - Ocupa 1 col */}
+        {/* Columna Derecha (Alertas de Inventario + Productos más y menos vendidos) - Ocupa 1 col */}
         <div className='flex flex-col gap-6'>
+          {/* Tarjeta de Alertas de Stock e Inventario */}
+          <div className='rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs'>
+            <div className='flex items-center justify-between pb-4 border-b border-neutral-50'>
+              <div className='flex items-center gap-2.5'>
+                <Boxes className='h-5 w-5 text-indigo-600' />
+                <h3 className='text-base font-bold text-neutral-800'>
+                  Estado del Stock
+                </h3>
+              </div>
+              <Link href='/admin/product'>
+                <span className='text-[11px] font-bold text-blue-600 hover:text-blue-700 cursor-pointer'>
+                  Ver Catálogo →
+                </span>
+              </Link>
+            </div>
+
+            {/* Lista de productos agotados y con stock bajo */}
+            <div className='mt-4 flex flex-col gap-3'>
+              {inventoryStats.outOfStock.length === 0 && inventoryStats.lowStock.length === 0 ? (
+                <div className='flex items-center gap-2.5 p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs font-semibold'>
+                  <CheckCircle2 className='h-4 w-4 text-emerald-600 shrink-0' />
+                  <span>Todos los productos tienen stock saludable (&gt; 10 bultos).</span>
+                </div>
+              ) : (
+                <>
+                  {/* Productos Agotados (0 bultos) */}
+                  {inventoryStats.outOfStock.map((prod) => (
+                    <div
+                      key={prod.id}
+                      className='flex items-center justify-between p-2.5 rounded-xl bg-red-50/70 border border-red-100'
+                    >
+                      <div className='flex items-center gap-2 min-w-0'>
+                        <AlertCircle className='h-4 w-4 text-red-600 shrink-0' />
+                        <span className='text-xs font-bold text-red-900 truncate max-w-[150px]'>
+                          {prod.name}
+                        </span>
+                      </div>
+                      <span className='inline-flex items-center rounded-full bg-red-600 px-2 py-0.5 text-[10px] font-bold text-white shrink-0'>
+                        Agotado (0 bultos)
+                      </span>
+                    </div>
+                  ))}
+
+                  {/* Productos con Stock Bajo (<= 10 bultos) */}
+                  {inventoryStats.lowStock.map((prod) => (
+                    <div
+                      key={prod.id}
+                      className='flex items-center justify-between p-2.5 rounded-xl bg-amber-50/70 border border-amber-100'
+                    >
+                      <div className='flex items-center gap-2 min-w-0'>
+                        <AlertTriangle className='h-4 w-4 text-amber-600 shrink-0' />
+                        <span className='text-xs font-bold text-amber-900 truncate max-w-[150px]'>
+                          {prod.name}
+                        </span>
+                      </div>
+                      <span className='inline-flex items-center rounded-full bg-amber-200 px-2 py-0.5 text-[10px] font-bold text-amber-900 shrink-0'>
+                        {prod.stock} {prod.stock === 1 ? "bulto" : "bultos"}
+                      </span>
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
+          </div>
+
           {/* Productos Más Vendidos */}
           <div className='rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs'>
             <div className='flex items-center gap-2.5 pb-4 border-b border-neutral-50'>
@@ -385,7 +515,7 @@ export default function AdminDashboard() {
                       </span>
                     </div>
                     <span className='inline-flex items-center rounded-full bg-neutral-200 px-2 py-0.5 text-[10px] font-bold text-neutral-600'>
-                      {item.quantity} unds
+                      {item.quantity} {item.quantity === 1 ? "bulto" : "bultos"}
                     </span>
                   </div>
                 ))}
@@ -422,7 +552,7 @@ export default function AdminDashboard() {
                     Cantidad Vendida
                   </span>
                   <span className='inline-flex items-center rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-bold text-red-600'>
-                    {productPerformances.least.quantity} unidades
+                    {productPerformances.least.quantity} {productPerformances.least.quantity === 1 ? "bulto" : "bultos"}
                   </span>
                 </div>
               </div>

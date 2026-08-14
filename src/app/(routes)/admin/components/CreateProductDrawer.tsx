@@ -29,6 +29,7 @@ export default function CreateProductDrawer() {
       name: "",
       gr: 0,
       price: 0,
+      stock: 0,
       portafolioId: 0,
     },
   });
@@ -39,11 +40,17 @@ export default function CreateProductDrawer() {
       ...data,
       gr: Number(data.gr),
       price: Number(data.price),
+      stock: Number(data.stock) >= 0 ? Number(data.stock) : 0,
       portafolioId: Number(data.portafolioId),
     };
 
     if (!payload.portafolioId) {
       toast.error("Debes seleccionar un portafolio");
+      return;
+    }
+
+    if (payload.stock < 0) {
+      toast.error("La cantidad en inventario no puede ser negativa");
       return;
     }
 
@@ -105,6 +112,23 @@ export default function CreateProductDrawer() {
             placeholder="Ej. 1.25"
             className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm"
             {...register("price", { required: "El precio es obligatorio", min: 0 })}
+          />
+        </div>
+
+        {/* Stock / Cantidad Field */}
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="stock" className="text-sm font-semibold text-neutral-700">
+            Cantidad en Inventario (Bultos)
+          </Label>
+          <Input
+            id="stock"
+            type="number"
+            placeholder="Ej. 50"
+            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm"
+            {...register("stock", {
+              required: "La cantidad de bultos es obligatoria",
+              min: { value: 0, message: "La cantidad de bultos no puede ser negativa" },
+            })}
           />
         </div>
 

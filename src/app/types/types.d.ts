@@ -35,6 +35,7 @@ export interface ProductProps {
   name: string;
   gr: number;
   price: number;
+  stock: number;
   portafolioId: number;
 }
 

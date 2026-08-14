@@ -7,7 +7,7 @@ export function SelectCantProduct() {
   return (
     <div className=''>
       <div className='w-full flex flex-col gap-2'>
-        <Label>Cantidad del producto</Label>
+        <Label>Cantidad de bultos</Label>
         <div className='flex gap-2 items-center'>
           <Input
             type='number'

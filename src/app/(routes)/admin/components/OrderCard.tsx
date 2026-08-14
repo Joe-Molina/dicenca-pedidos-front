@@ -528,7 +528,7 @@ export default function OrderCard({
                             <div className="flex flex-col gap-1 min-w-0 pr-4">
                               <span className="font-bold text-neutral-800 truncate">{prodName}</span>
                               <span className="text-[10px] text-neutral-400 font-medium">
-                                {item.cant} {item.cant === 1 ? "unidad" : "unidades"} x {formatCurrency(item.price)}
+                                {item.cant} {item.cant === 1 ? "bulto" : "bultos"} x {formatCurrency(item.price)}
                               </span>
                             </div>
                             <span className="font-bold text-neutral-700 shrink-0">
