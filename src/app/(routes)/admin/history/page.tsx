@@ -20,7 +20,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, Calendar, Filter, RotateCcw, ClipboardList } from "lucide-react";
+import { Search, Calendar, Filter, RotateCcw, ClipboardList, Download, FileText } from "lucide-react";
+import { toast } from "sonner";
 
 export default function AdminHistoryPage() {
   // Peticiones de datos necesarias
@@ -121,7 +122,6 @@ export default function AdminHistoryPage() {
     });
   }, [orders, clients, zones, searchQuery, startDate, endDate, selectedSellerId, selectedProductId, statusTab]);
 
-
   // Función para reiniciar los filtros de búsqueda
   const handleResetFilters = () => {
     setSearchQuery("");
@@ -130,6 +130,96 @@ export default function AdminHistoryPage() {
     setSelectedSellerId("");
     setSelectedProductId("");
     setStatusTab("all");
+  };
+
+  // Función para exportar los pedidos a formato TXT según la fecha y filtros
+  const handleExportTxt = () => {
+    if (!filteredOrders || filteredOrders.length === 0) {
+      toast.error("No hay pedidos para exportar con los filtros seleccionados");
+      return;
+    }
+
+    const nowStr = new Intl.DateTimeFormat("es-VE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    }).format(new Date());
+
+    const dateFilterStr =
+      startDate && endDate
+        ? `Desde: ${startDate} | Hasta: ${endDate}`
+        : startDate
+        ? `Desde: ${startDate}`
+        : endDate
+        ? `Hasta: ${endDate}`
+        : "Todos los períodos";
+
+    const totalGeneral = filteredOrders.reduce((acc, order) => {
+      const orderTotal =
+        order.orderDetails?.reduce((sum, curr) => sum + curr.total, 0) || 0;
+      return acc + orderTotal;
+    }, 0);
+
+    let content = "";
+    content += "================================================================================\n";
+    content += "                          REPORTE DE PEDIDOS - DICENCA                          \n";
+    content += "================================================================================\n";
+    content += `Fecha de Generación: ${nowStr}\n`;
+    content += `Filtro de Fecha:     ${dateFilterStr}\n`;
+    content += `Total de Pedidos:    ${filteredOrders.length}\n`;
+    content += `Monto Total General: $${totalGeneral.toFixed(2)}\n`;
+    content += "================================================================================\n";
+    content += "FORMATO: Nombre del cliente / productos que lleva / Monto total del pedido\n";
+    content += "--------------------------------------------------------------------------------\n\n";
+
+    filteredOrders.forEach((order, index) => {
+      const client = clients?.find((c) => c.id === order.clientId);
+      const clientName =
+        client?.company_name || client?.name || `Cliente #${order.clientId}`;
+
+      const productsList =
+        (order.orderDetails || [])
+          .map((detail) => {
+            const product = products?.find((p) => p.id === detail.productId);
+            const pName = product?.name || `Producto #${detail.productId}`;
+            return `${detail.cant}x ${pName}`;
+          })
+          .join(", ") || "Sin productos";
+
+      const orderTotal = (order.orderDetails || []).reduce(
+        (sum, curr) => sum + curr.total,
+        0
+      );
+
+      content += `${index + 1}. ${clientName} / ${productsList} / $${orderTotal.toFixed(2)}\n`;
+    });
+
+    content += "\n================================================================================\n";
+    content += "                                FIN DEL REPORTE                                 \n";
+    content += "================================================================================\n";
+
+    // Crear el archivo Blob y disparar la descarga
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const dateSlug =
+      startDate || endDate
+        ? `${startDate || "inicio"}_al_${endDate || "actual"}`
+        : new Date().toISOString().split("T")[0];
+    link.href = url;
+    link.download = `pedidos_${dateSlug}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    toast.success(
+      `Se han exportado ${filteredOrders.length} pedido(s) a TXT exitosamente`
+    );
   };
 
   if (isLoading) {
@@ -146,14 +236,29 @@ export default function AdminHistoryPage() {
   return (
     <div className="flex min-h-screen w-full flex-col gap-6 bg-neutral-50/50 p-4 md:p-8">
       {/* Encabezado */}
-      <div className="flex flex-col gap-2">
-        <h1 className="bg-gradient-to-r from-neutral-800 to-neutral-600 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent flex items-center gap-2">
-          <ClipboardList className="size-8 text-neutral-700" />
-          Historial de Pedidos
-        </h1>
-        <p className="text-sm font-medium text-neutral-500">
-          Consulta y gestiona todos los pedidos generados por fecha, vendedor, clientes y productos.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex flex-col gap-1">
+          <h1 className="bg-gradient-to-r from-neutral-800 to-neutral-600 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent flex items-center gap-2">
+            <ClipboardList className="size-8 text-neutral-700" />
+            Historial de Pedidos
+          </h1>
+          <p className="text-sm font-medium text-neutral-500">
+            Consulta, filtra y exporta todos los pedidos generados por fecha, cliente y productos.
+          </p>
+        </div>
+
+        {/* Botón de Exportar a TXT */}
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={handleExportTxt}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs h-10 px-4 gap-2 shadow-xs cursor-pointer transition-all duration-150"
+            disabled={filteredOrders.length === 0}
+            title="Exportar listado actual de pedidos en formato TXT"
+          >
+            <Download className="size-4" />
+            <span>Exportar a TXT ({filteredOrders.length})</span>
+          </Button>
+        </div>
       </div>
 
       {/* PANEL DE FILTROS */}

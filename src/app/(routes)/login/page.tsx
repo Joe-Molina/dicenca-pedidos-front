@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/app/store/useAuthStore";
@@ -219,11 +218,11 @@ export default function Page() {
                 )}
               </div>
 
-              {/* Botones de acción */}
-              <div className='flex flex-col sm:flex-row gap-3 w-full pt-2'>
+              {/* Botón de acción */}
+              <div className='w-full pt-2'>
                 <Button
                   type='submit'
-                  className='flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm transition-all duration-150 cursor-pointer h-10'
+                  className='w-full bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm transition-all duration-150 cursor-pointer h-10'
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
@@ -235,15 +234,6 @@ export default function Page() {
                     "Iniciar sesión"
                   )}
                 </Button>
-                <Link href='/' className='flex-1'>
-                  <Button
-                    type='button'
-                    variant='outline'
-                    className='w-full border-blue-200 text-blue-700 hover:bg-blue-50 hover:text-blue-800 font-bold rounded-xl transition-all duration-150 cursor-pointer h-10'
-                  >
-                    Crear cuenta
-                  </Button>
-                </Link>
               </div>
 
               {/* Label de notificación / alerta debajo de los botones de ingresar */}
