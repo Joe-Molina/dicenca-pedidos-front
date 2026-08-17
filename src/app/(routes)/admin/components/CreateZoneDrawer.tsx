@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { DrawerCreate } from "./createDrawer";
-import { DrawerFooter } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Controller, useForm } from "react-hook-form";
 import { ZoneProps } from "@/app/types/types";
@@ -72,67 +71,70 @@ export default function CreateZoneDrawer() {
   return (
     <DrawerCreate trigger="Crear Zona" open={open} onOpenChange={setOpen}>
       {/* Formulario para registrar una zona */}
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 py-3">
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="userId" className="text-xs font-semibold text-neutral-600">
-            Vendedor Asignado
-          </Label>
-          <Controller
-            name="userId"
-            control={control}
-            rules={{ required: "Debes seleccionar un vendedor" }}
-            render={({ field }) => (
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value ? field.value.toString() : undefined}
-              >
-                <SelectTrigger className="w-full border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-xs text-sm">
-                  <SelectValue placeholder="Selecciona un vendedor" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Vendedores</SelectLabel>
-                    {sellers &&
-                      sellers.map((seller) => (
-                        <SelectItem key={seller.id} value={seller.id.toString()}>
-                          {seller.name}
-                        </SelectItem>
-                      ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex-1 min-h-0 flex flex-col justify-between overflow-hidden">
+        <div className="flex-1 overflow-y-auto pr-1 py-1 flex flex-col gap-3">
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="userId" className="text-xs font-semibold text-neutral-600">
+              Vendedor Asignado
+            </Label>
+            <Controller
+              name="userId"
+              control={control}
+              rules={{ required: "Debes seleccionar un vendedor" }}
+              render={({ field }) => (
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value ? field.value.toString() : undefined}
+                >
+                  <SelectTrigger className="w-full border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-xs text-xs">
+                    <SelectValue placeholder="Selecciona un vendedor" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Vendedores</SelectLabel>
+                      {sellers &&
+                        sellers.map((seller) => (
+                          <SelectItem key={seller.id} value={seller.id.toString()}>
+                            {seller.name}
+                          </SelectItem>
+                        ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+            {errors.userId && (
+              <span className="text-[10px] text-red-500 font-semibold">{errors.userId.message}</span>
             )}
-          />
-          {errors.userId && (
-            <span className="text-[10px] text-red-500 font-semibold">{errors.userId.message}</span>
-          )}
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="names" className="text-xs font-semibold text-neutral-600">
+              Nombre de la Zona
+            </Label>
+            <Input
+              id="names"
+              type="text"
+              placeholder="Ej. Barcelona Centro"
+              className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
+              {...register("names", { required: "El nombre de la zona es obligatorio" })}
+            />
+            {errors.names && (
+              <span className="text-[10px] text-red-500 font-semibold">{errors.names.message}</span>
+            )}
+          </div>
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="names" className="text-xs font-semibold text-neutral-600">
-            Nombre de la Zona
-          </Label>
-          <Input
-            id="names"
-            type="text"
-            placeholder="Ej. Barcelona Centro"
-            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-sm shadow-xs"
-            {...register("names", { required: "El nombre de la zona es obligatorio" })}
-          />
-          {errors.names && (
-            <span className="text-[10px] text-red-500 font-semibold">{errors.names.message}</span>
-          )}
-        </div>
-
-        <DrawerFooter className="px-0 pt-4">
+        {/* Botón Guardar abajo fijo y siempre a la vista */}
+        <div className="pt-3 pb-1 shrink-0 border-t border-neutral-100 bg-white">
           <Button
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-all duration-200 rounded-xl text-xs h-10"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-all duration-200 rounded-xl text-xs h-10 cursor-pointer"
             type="submit"
             disabled={isSubmitting}
           >
             {isSubmitting ? <Spinner className="h-4 w-4" /> : "Guardar Zona"}
           </Button>
-        </DrawerFooter>
+        </div>
       </form>
     </DrawerCreate>
   );

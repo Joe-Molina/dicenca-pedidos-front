@@ -16,6 +16,7 @@ import {
   LogOut,
   Home,
   ClipboardList, // Importamos ClipboardList para el historial
+  ShieldCheck, // Ícono para auditoría
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -71,6 +72,9 @@ export default function DashboardLayout({
         return <MapPin className='size-5 shrink-0' />;
       case "clientes":
         return <UserCheck className='size-5 shrink-0' />;
+      case "auditoría":
+      case "auditoria":
+        return <ShieldCheck className='size-5 shrink-0' />;
       default:
         return <Home className='size-5 shrink-0' />;
     }
