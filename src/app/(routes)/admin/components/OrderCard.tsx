@@ -473,7 +473,7 @@ export default function OrderCard({
 
                   {/* Selector para Agregar Producto */}
                   <div className="p-4 border border-neutral-100 rounded-2xl bg-neutral-50/20 space-y-3">
-                    <Label className="text-xs font-bold text-indigo-600 uppercase tracking-wider flex items-center gap-1.5">
+                    <Label className="text-xs font-bold text-blue-600 uppercase tracking-wider flex items-center gap-1.5">
                       <Plus className="size-4" /> Agregar Producto al Pedido
                     </Label>
                     <div className="flex gap-2 items-center">
@@ -505,7 +505,7 @@ export default function OrderCard({
                       <Button
                         type="button"
                         onClick={handleAddProduct}
-                        className="bg-indigo-600 hover:bg-indigo-750 text-white rounded-xl h-9 px-3 shrink-0"
+                        className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl h-9 px-3 shrink-0 font-bold"
                       >
                         Añadir
                       </Button>
@@ -528,7 +528,7 @@ export default function OrderCard({
                             <div className="flex flex-col gap-1 min-w-0 pr-4">
                               <span className="font-bold text-neutral-800 truncate">{prodName}</span>
                               <span className="text-[10px] text-neutral-400 font-medium">
-                                {item.cant} {item.cant === 1 ? "unidad" : "unidades"} x {formatCurrency(item.price)}
+                                {item.cant} {item.cant === 1 ? "bulto" : "bultos"} x {formatCurrency(item.price)}
                               </span>
                             </div>
                             <span className="font-bold text-neutral-700 shrink-0">
@@ -576,7 +576,7 @@ export default function OrderCard({
                   <Button
                     disabled={isUpdating}
                     onClick={handleSaveOrderEdits}
-                    className="flex-1 rounded-xl text-xs font-bold gap-1.5 shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+                    className="flex-1 rounded-xl text-xs font-bold gap-1.5 shadow-sm text-white bg-blue-600 hover:bg-blue-700"
                   >
                     {isUpdating ? <Spinner className="h-4 w-4" /> : <><Save className="size-4" /> Guardar Cambios</>}
                   </Button>
@@ -704,7 +704,7 @@ export default function OrderCard({
                 <Button
                   type="submit"
                   disabled={isAuthorizing}
-                  className="flex-1 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700"
+                  className="flex-1 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700"
                 >
                   {isAuthorizing ? <Spinner className="h-4 w-4" /> : "Aprobar Cambio"}
                 </Button>

@@ -9,6 +9,7 @@ const navLinksStart = [
   { name: "Usuarios", href: "/admin/users", current: false }, // Cambiado a Gestión de Usuarios
   { name: "Zonas", href: "/admin/zone", current: false },
   { name: "Clientes", href: "/admin/client", current: false },
+  { name: "Auditoría", href: "/admin/audit", current: false },
 ];
 
 const navLinks = [
@@ -20,6 +21,7 @@ const navLinks = [
   { name: "Usuarios", href: "/admin/users", current: false }, // Cambiado a Gestión de Usuarios
   { name: "Zonas", href: "/admin/zone", current: false },
   { name: "Clientes", href: "/admin/client", current: false },
+  { name: "Auditoría", href: "/admin/audit", current: false },
 ];
 
 interface LinkProps {

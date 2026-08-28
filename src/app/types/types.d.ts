@@ -17,13 +17,14 @@ export interface UserProps {
   lastname: string;
   email: string;
   role: "seller" | "admin";
+  status?: boolean;
 }
 
 export interface ClientProps {
   id: number;
   address: string;
   rif: string;
-  contact: number;
+  contact: string | number;
   cod_sunagro: number;
   zoneId: number;
   name: string;
@@ -35,6 +36,7 @@ export interface ProductProps {
   name: string;
   gr: number;
   price: number;
+  stock: number;
   portafolioId: number;
 }
 
@@ -82,3 +84,46 @@ interface UserPayload {
   email: string;
   role: "admin" | "seller";
 }
+
+export interface AuditLogProps {
+  id: string;
+  createdAt: string;
+  userId: number | null;
+  user?: {
+    id: number;
+    name: string;
+    lastname: string;
+    username: string;
+    email: string;
+    role: string;
+  } | null;
+  action: string;
+  entity: string;
+  entityId: string;
+  oldData: string | null;
+  newData: string | null;
+  ipAddress: string | null;
+  userAgent: string | null;
+}
+
+export interface AuditStatsProps {
+  totalLogs: number;
+  todayLogs: number;
+  createLogs: number;
+  updateLogs: number;
+  deleteLogs: number;
+  loginLogs: number;
+  recentLogs: AuditLogProps[];
+}
+
+export interface AuditFilters {
+  page?: number;
+  limit?: number;
+  search?: string;
+  action?: string;
+  entity?: string;
+  userId?: number;
+  startDate?: string;
+  endDate?: string;
+}
+

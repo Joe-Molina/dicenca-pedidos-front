@@ -120,6 +120,18 @@ export default function SellerDashboard() {
     };
   }, [isLoading, user, zones, clients, orders]);
 
+  // Fecha actual formateada en español
+  const currentDateSpanish = useMemo(() => {
+    const formatter = new Intl.DateTimeFormat("es-ES", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+    const formatted = formatter.format(new Date());
+    return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+  }, []);
+
   if (isLoading) {
     return <SpinnerGlobal />;
   }
@@ -132,15 +144,15 @@ export default function SellerDashboard() {
       {/* Saludo y Botón Principal */}
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h2 className="bg-gradient-to-r from-indigo-800 to-indigo-600 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent">
+          <h2 className="bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent">
             Panel de Ventas
           </h2>
           <p className="text-sm font-medium text-neutral-500">
-            Monitorea tu cartera de clientes, toma nuevos pedidos y revisa despachos atrasados.
+            {currentDateSpanish}
           </p>
         </div>
         <Link href="/seller/order">
-          <Button className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-xs gap-1.5 shadow-sm py-5 px-6 cursor-pointer">
+          <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 font-bold rounded-xl text-xs gap-1.5 shadow-sm py-5 px-6 cursor-pointer text-white">
             <Plus className="size-4" />
             Crear Nueva Orden
           </Button>
@@ -166,7 +178,7 @@ export default function SellerDashboard() {
               {/* Barra de progreso visual de clientes activados */}
               <div className="w-full bg-neutral-100 h-1.5 rounded-full overflow-hidden mt-2">
                 <div
-                  className="bg-blue-500 h-full rounded-full transition-all duration-300"
+                  className="bg-blue-600 h-full rounded-full transition-all duration-300"
                   style={{
                     width: `${
                       sellerStats.totalClients > 0
@@ -182,9 +194,9 @@ export default function SellerDashboard() {
 
         {/* Total Pedidos */}
         <div className="relative overflow-hidden rounded-2xl border border-neutral-100 bg-white p-5 shadow-xs transition-all duration-300 hover:shadow-md">
-          <div className="absolute top-0 right-0 -mr-4 -mt-4 h-20 w-20 rounded-full bg-indigo-500/5 blur-lg"></div>
+          <div className="absolute top-0 right-0 -mr-4 -mt-4 h-20 w-20 rounded-full bg-blue-500/5 blur-lg"></div>
           <div className="flex items-center gap-4">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
               <ShoppingCart className="h-5.5 w-5.5" />
             </div>
             <div>
@@ -243,13 +255,13 @@ export default function SellerDashboard() {
                       <span className="text-neutral-800 font-bold truncate max-w-[280px]">
                         {index + 1}. {client.name}
                       </span>
-                      <span className="text-indigo-600 font-bold">
+                      <span className="text-blue-600 font-bold">
                         {formatCurrency(client.spent)}
                       </span>
                     </div>
                     <div className="w-full bg-neutral-100 h-2.5 rounded-full overflow-hidden shadow-inner">
                       <div
-                        className="bg-indigo-600 h-full rounded-full transition-all duration-500"
+                        className="bg-blue-600 h-full rounded-full transition-all duration-500"
                         style={{ width: `${percentage}%` }}
                       />
                     </div>
@@ -263,7 +275,7 @@ export default function SellerDashboard() {
         {/* Zonas de Trabajo del Vendedor - Ocupa 1 Col en Desktop */}
         <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs">
           <div className="flex items-center gap-2.5 pb-4 border-b border-neutral-50">
-            <MapPin className="h-5 w-5 text-indigo-500" />
+            <MapPin className="h-5 w-5 text-blue-600" />
             <h3 className="text-base font-bold text-neutral-800">
               Tus Zonas Asignadas
             </h3>
@@ -279,7 +291,7 @@ export default function SellerDashboard() {
                   key={zone.id}
                   className="flex items-center gap-3 p-3 rounded-xl bg-neutral-50/50 hover:bg-neutral-50 border border-neutral-100/50 transition-colors"
                 >
-                  <div className="flex h-7.5 w-7.5 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600 shrink-0">
+                  <div className="flex h-7.5 w-7.5 items-center justify-center rounded-lg bg-blue-50 text-blue-600 shrink-0">
                     <MapPin className="h-4 w-4" />
                   </div>
                   <span className="text-xs font-bold text-neutral-800 truncate">

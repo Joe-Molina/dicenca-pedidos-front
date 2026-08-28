@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { DrawerCreate } from "./createDrawer";
-import { DrawerFooter } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Controller, useForm } from "react-hook-form";
 import { UserProps } from "@/app/types/types";
@@ -73,146 +72,149 @@ export default function CreateUserDrawer() {
   return (
     <DrawerCreate trigger="Crear Usuario" open={open} onOpenChange={setOpen}>
       {/* Formulario para registrar un usuario del sistema */}
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 py-3 overflow-y-auto max-h-[75vh]">
-        
-        {/* Campo: Rol */}
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="role" className="text-xs font-semibold text-neutral-600">
-            Rol de Usuario
-          </Label>
-          <Controller
-            name="role"
-            control={control}
-            rules={{ required: "El rol es obligatorio" }}
-            render={({ field }) => (
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-              >
-                <SelectTrigger className="w-full border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-xs text-xs">
-                  <SelectValue placeholder="Selecciona un rol" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Roles del Sistema</SelectLabel>
-                    <SelectItem value="seller">Vendedor (Seller)</SelectItem>
-                    <SelectItem value="admin">Administrador (Admin)</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex-1 min-h-0 flex flex-col justify-between overflow-hidden">
+        {/* Campos del formulario con scroll suave y cuadrícula en PC */}
+        <div className="flex-1 overflow-y-auto pr-1 py-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* Campo: Rol */}
+          <div className="flex flex-col gap-1 sm:col-span-2">
+            <Label htmlFor="role" className="text-xs font-semibold text-neutral-600">
+              Rol de Usuario
+            </Label>
+            <Controller
+              name="role"
+              control={control}
+              rules={{ required: "El rol es obligatorio" }}
+              render={({ field }) => (
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="w-full border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-xs text-xs">
+                    <SelectValue placeholder="Selecciona un rol" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Roles del Sistema</SelectLabel>
+                      <SelectItem value="seller">Vendedor (Seller)</SelectItem>
+                      <SelectItem value="admin">Administrador (Admin)</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+            {errors.role && (
+              <span className="text-[10px] text-red-500 font-semibold">{errors.role.message}</span>
             )}
-          />
-          {errors.role && (
-            <span className="text-[10px] text-red-500 font-semibold">{errors.role.message}</span>
-          )}
+          </div>
+
+          {/* Campo: Nombre */}
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="name" className="text-xs font-semibold text-neutral-600">
+              Nombre
+            </Label>
+            <Input
+              id="name"
+              type="text"
+              placeholder="Ej. José"
+              className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
+              {...register("name", { required: "El nombre es obligatorio" })}
+            />
+            {errors.name && (
+              <span className="text-[10px] text-red-500 font-semibold">{errors.name.message}</span>
+            )}
+          </div>
+
+          {/* Campo: Apellido */}
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="lastname" className="text-xs font-semibold text-neutral-600">
+              Apellido
+            </Label>
+            <Input
+              id="lastname"
+              type="text"
+              placeholder="Ej. Molina"
+              className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
+              {...register("lastname", { required: "El apellido es obligatorio" })}
+            />
+            {errors.lastname && (
+              <span className="text-[10px] text-red-500 font-semibold">{errors.lastname.message}</span>
+            )}
+          </div>
+
+          {/* Campo: Usuario */}
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="username" className="text-xs font-semibold text-neutral-600">
+              Usuario de Login
+            </Label>
+            <Input
+              id="username"
+              type="text"
+              placeholder="Ej. jmolina"
+              className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
+              {...register("username", { required: "El nombre de usuario es obligatorio" })}
+            />
+            {errors.username && (
+              <span className="text-[10px] text-red-500 font-semibold">{errors.username.message}</span>
+            )}
+          </div>
+
+          {/* Campo: Email */}
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="email" className="text-xs font-semibold text-neutral-600">
+              Correo Electrónico
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="Ej. jose.molina@dicenca.com"
+              className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
+              {...register("email", { 
+                required: "El correo electrónico es obligatorio",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Correo electrónico no válido",
+                }
+              })}
+            />
+            {errors.email && (
+              <span className="text-[10px] text-red-500 font-semibold">{errors.email.message}</span>
+            )}
+          </div>
+
+          {/* Campo: Contraseña */}
+          <div className="flex flex-col gap-1 sm:col-span-2">
+            <Label htmlFor="password" className="text-xs font-semibold text-neutral-600">
+              Contraseña
+            </Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="Mínimo 6 caracteres"
+              className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
+              {...register("password", { 
+                required: "La contraseña es obligatoria",
+                minLength: {
+                  value: 6,
+                  message: "Debe tener al menos 6 caracteres",
+                }
+              })}
+            />
+            {errors.password && (
+              <span className="text-[10px] text-red-500 font-semibold">{errors.password.message}</span>
+            )}
+          </div>
         </div>
 
-        {/* Campo: Nombre */}
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="name" className="text-xs font-semibold text-neutral-600">
-            Nombre
-          </Label>
-          <Input
-            id="name"
-            type="text"
-            placeholder="Ej. José"
-            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
-            {...register("name", { required: "El nombre es obligatorio" })}
-          />
-          {errors.name && (
-            <span className="text-[10px] text-red-500 font-semibold">{errors.name.message}</span>
-          )}
-        </div>
-
-        {/* Campo: Apellido */}
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="lastname" className="text-xs font-semibold text-neutral-600">
-            Apellido
-          </Label>
-          <Input
-            id="lastname"
-            type="text"
-            placeholder="Ej. Molina"
-            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
-            {...register("lastname", { required: "El apellido es obligatorio" })}
-          />
-          {errors.lastname && (
-            <span className="text-[10px] text-red-500 font-semibold">{errors.lastname.message}</span>
-          )}
-        </div>
-
-        {/* Campo: Usuario */}
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="username" className="text-xs font-semibold text-neutral-600">
-            Usuario de Login
-          </Label>
-          <Input
-            id="username"
-            type="text"
-            placeholder="Ej. jmolina"
-            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
-            {...register("username", { required: "El nombre de usuario es obligatorio" })}
-          />
-          {errors.username && (
-            <span className="text-[10px] text-red-500 font-semibold">{errors.username.message}</span>
-          )}
-        </div>
-
-        {/* Campo: Email */}
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="email" className="text-xs font-semibold text-neutral-600">
-            Correo Electrónico
-          </Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="Ej. jose.molina@dicenca.com"
-            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
-            {...register("email", { 
-              required: "El correo electrónico es obligatorio",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Correo electrónico no válido",
-              }
-            })}
-          />
-          {errors.email && (
-            <span className="text-[10px] text-red-500 font-semibold">{errors.email.message}</span>
-          )}
-        </div>
-
-        {/* Campo: Contraseña */}
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="password" className="text-xs font-semibold text-neutral-600">
-            Contraseña
-          </Label>
-          <Input
-            id="password"
-            type="password"
-            placeholder="Mínimo 6 caracteres"
-            className="border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-xs shadow-xs"
-            {...register("password", { 
-              required: "La contraseña es obligatoria",
-              minLength: {
-                value: 6,
-                message: "Debe tener al menos 6 caracteres",
-              }
-            })}
-          />
-          {errors.password && (
-            <span className="text-[10px] text-red-500 font-semibold">{errors.password.message}</span>
-          )}
-        </div>
-
-        <DrawerFooter className="px-0 pt-4">
+        {/* Botón Guardar abajo fijo y siempre a la vista */}
+        <div className="pt-3 pb-1 shrink-0 border-t border-neutral-100 bg-white">
           <Button
-            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium shadow-md transition-all duration-200 rounded-lg text-xs"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-all duration-200 rounded-xl text-xs h-10 cursor-pointer"
             type="submit"
             disabled={isSubmitting}
           >
             {isSubmitting ? <Spinner className="h-4 w-4" /> : "Guardar Usuario"}
           </Button>
-        </DrawerFooter>
+        </div>
       </form>
     </DrawerCreate>
   );

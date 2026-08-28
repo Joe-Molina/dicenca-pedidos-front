@@ -29,11 +29,13 @@ export function DrawerCreate({
         <Button variant="outline">{trigger}</Button>
       </DrawerTrigger>
       <DrawerContent>
-        <div className="p-3 w-full max-w-sm mx-auto">
-          <DrawerHeader>
-            <DrawerTitle>{trigger}</DrawerTitle>
+        <div className="p-4 sm:p-6 w-full max-w-lg sm:max-w-xl mx-auto flex flex-col max-h-[85vh]">
+          <DrawerHeader className="p-0 pb-3 text-left shrink-0">
+            <DrawerTitle className="text-lg font-bold text-neutral-900">{trigger}</DrawerTitle>
           </DrawerHeader>
-          {children}
+          <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
+            {children}
+          </div>
         </div>
       </DrawerContent>
     </Drawer>

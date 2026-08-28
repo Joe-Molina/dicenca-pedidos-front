@@ -29,6 +29,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+function formatPhone(contact?: string | number) {
+  if (!contact) return "";
+  const str = String(contact).trim();
+  if (!str || str === "0") return "";
+  if (str.length === 10 && !str.startsWith("0")) {
+    return "0" + str;
+  }
+  return str;
+}
+
 export default function AdminClients() {
   const {
     query: { data: clients, isLoading: clientsLoading },
@@ -46,12 +56,20 @@ export default function AdminClients() {
 
   // Estado para el modo de edición en línea
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [editForm, setEditForm] = useState({
+  const [editForm, setEditForm] = useState<{
+    name: string;
+    company_name: string;
+    rif: string;
+    contact: string;
+    cod_sunagro: string | number;
+    address: string;
+    zoneId: number;
+  }>({
     name: "",
     company_name: "",
     rif: "",
-    contact: 0,
-    cod_sunagro: 0,
+    contact: "",
+    cod_sunagro: "",
     address: "",
     zoneId: 0,
   });
@@ -59,12 +77,19 @@ export default function AdminClients() {
 
   // Filtrado de clientes según búsqueda y zona seleccionada
   const filteredClients = useMemo(() => {
-    if (!clients) return [];
+    if (!Array.isArray(clients)) return [];
     return clients.filter((client) => {
+      const name = (client.name || "").toLowerCase();
+      const companyName = (client.company_name || "").toLowerCase();
+      const rif = (client.rif || "").toLowerCase();
+      const phone = formatPhone(client.contact);
+      const query = searchTerm.toLowerCase();
+
       const matchesSearch =
-        client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        client.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        client.rif.toLowerCase().includes(searchTerm.toLowerCase());
+        name.includes(query) ||
+        companyName.includes(query) ||
+        rif.includes(query) ||
+        phone.includes(query);
       
       const matchesZone =
         selectedZoneFilter === "all" ||
@@ -77,9 +102,10 @@ export default function AdminClients() {
   // Cálculo de estadísticas
   const stats = useMemo(() => {
     return {
-      totalClients: clients?.length || 0,
+      totalClients: Array.isArray(clients) ? clients.length : 0,
     };
   }, [clients]);
+
 
   // Iniciar la edición de un cliente
   const handleStartEdit = (client: any) => {
@@ -88,8 +114,8 @@ export default function AdminClients() {
       name: client.name || "",
       company_name: client.company_name || "",
       rif: client.rif || "",
-      contact: client.contact || 0,
-      cod_sunagro: client.cod_sunagro || 0,
+      contact: formatPhone(client.contact),
+      cod_sunagro: client.cod_sunagro && Number(client.cod_sunagro) !== 0 ? client.cod_sunagro.toString() : "",
       address: client.address || "",
       zoneId: client.zoneId || 0,
     });
@@ -127,8 +153,8 @@ export default function AdminClients() {
           name: editForm.name.trim(),
           company_name: editForm.company_name.trim(),
           rif: editForm.rif.trim(),
-          contact: Number(editForm.contact),
-          cod_sunagro: Number(editForm.cod_sunagro),
+          contact: editForm.contact ? editForm.contact.trim() : "",
+          cod_sunagro: editForm.cod_sunagro ? Number(editForm.cod_sunagro) : 0,
           address: editForm.address.trim(),
           zoneId: Number(editForm.zoneId),
         },
@@ -422,22 +448,26 @@ export default function AdminClients() {
                       <td className='px-4 py-3'>
                         {isEditing ? (
                           <Input
-                            type='number'
+                            type='tel'
+                            inputMode='tel'
+                            placeholder='Sin teléfono'
                             value={editForm.contact || ""}
                             onChange={(e) =>
                               setEditForm({
                                 ...editForm,
-                                contact: Number(e.target.value),
+                                contact: e.target.value,
                               })
                             }
-                            className='h-8 w-24 border-blue-500 focus:ring-blue-500 text-xs rounded-md text-right'
+                            className='h-8 w-28 border-blue-500 focus:ring-blue-500 text-xs rounded-md'
                             disabled={isSaving}
                           />
-                        ) : (
+                        ) : formatPhone(client.contact) ? (
                           <span className='text-neutral-600 font-medium flex items-center gap-1 text-xs'>
                             <Phone className='h-3 w-3 text-neutral-400' />
-                            {client.contact}
+                            {formatPhone(client.contact)}
                           </span>
+                        ) : (
+                          <span className='text-neutral-300 text-xs font-semibold'>—</span>
                         )}
                       </td>
 
@@ -445,22 +475,26 @@ export default function AdminClients() {
                       <td className='px-4 py-3'>
                         {isEditing ? (
                           <Input
-                            type='number'
+                            type='text'
+                            inputMode='numeric'
+                            placeholder='Sin código'
                             value={editForm.cod_sunagro || ""}
                             onChange={(e) =>
                               setEditForm({
                                 ...editForm,
-                                cod_sunagro: Number(e.target.value),
+                                cod_sunagro: e.target.value,
                               })
                             }
-                            className='h-8 w-24 border-blue-500 focus:ring-blue-500 text-xs rounded-md text-right'
+                            className='h-8 w-28 border-blue-500 focus:ring-blue-500 text-xs rounded-md'
                             disabled={isSaving}
                           />
-                        ) : (
+                        ) : client.cod_sunagro && Number(client.cod_sunagro) !== 0 ? (
                           <span className='text-neutral-500 font-mono text-xs flex items-center gap-1'>
                             <Barcode className='h-3 w-3 text-neutral-400' />
-                            {client.cod_sunagro || "N/D"}
+                            {client.cod_sunagro}
                           </span>
+                        ) : (
+                          <span className='text-neutral-300 text-xs font-semibold'>—</span>
                         )}
                       </td>
 

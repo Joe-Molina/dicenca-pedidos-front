@@ -112,12 +112,13 @@ export default function SellerHistoryPage() {
       }
 
       // Filtro por Producto
-      if (selectedProductId) {
+      if (selectedProductId && selectedProductId !== "all-products") {
         const hasProduct = order.orderDetails?.some(
           (detail) => detail.productId === Number(selectedProductId)
         );
         if (!hasProduct) return false;
       }
+
 
       return true;
     });
@@ -147,8 +148,8 @@ export default function SellerHistoryPage() {
     <div className="flex min-h-screen w-full flex-col gap-6 bg-neutral-50/50 p-4 md:p-8">
       {/* Encabezado */}
       <div className="flex flex-col gap-2">
-        <h2 className="bg-gradient-to-r from-indigo-800 to-indigo-600 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent flex items-center gap-2">
-          <ClipboardList className="size-8 text-indigo-700" />
+        <h2 className="bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent flex items-center gap-2">
+          <ClipboardList className="size-8 text-blue-600" />
           Tus Pedidos Tomados
         </h2>
         <p className="text-sm font-medium text-neutral-500">
@@ -165,7 +166,7 @@ export default function SellerHistoryPage() {
             <Input
               type="text"
               placeholder="Buscar cliente, razón social o RIF..."
-              className="pl-10 border-neutral-200 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-xs text-sm"
+              className="pl-10 border-neutral-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl shadow-xs text-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -240,7 +241,7 @@ export default function SellerHistoryPage() {
             onClick={() => setStatusTab("all")}
             className={`pb-3 px-4 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
               statusTab === "all"
-                ? "border-b-2 border-indigo-600 text-indigo-600 font-extrabold"
+                ? "border-b-2 border-blue-600 text-blue-600 font-extrabold"
                 : "text-neutral-400 hover:text-neutral-600"
             }`}
           >
