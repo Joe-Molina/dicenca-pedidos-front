@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/app/store/useAuthStore";
@@ -94,7 +93,7 @@ export default function Page() {
               D
             </div>
             <span className='text-2xl font-extrabold tracking-tight text-neutral-900'>
-              Dicenca <span className='text-blue-600'>Pedidos</span>
+              Diacenca <span className='text-blue-600'>Pedidos</span>
             </span>
           </div>
 
@@ -111,7 +110,7 @@ export default function Page() {
           </div>
 
           <div className='text-xs font-semibold text-neutral-400'>
-            © {new Date().getFullYear()} Dicenca. Todos los derechos reservados.
+            © {new Date().getFullYear()} Diacenca. Todos los derechos reservados.
           </div>
         </div>
 
@@ -147,11 +146,10 @@ export default function Page() {
                   placeholder='correo@ejemplo.com'
                   aria-invalid={!!errors.email}
                   aria-describedby={errors.email ? "email-error" : undefined}
-                  className={`rounded-xl border-neutral-200 focus:border-blue-600 focus:ring-blue-600 text-sm ${
-                    errors.email
-                      ? "border-red-500 focus-visible:ring-red-400"
-                      : ""
-                  }`}
+                  className={`rounded-xl border-neutral-200 focus:border-blue-600 focus:ring-blue-600 text-sm ${errors.email
+                    ? "border-red-500 focus-visible:ring-red-400"
+                    : ""
+                    }`}
                   {...register("email", {
                     required: "El correo electrónico es obligatorio",
                     pattern: {
@@ -192,11 +190,10 @@ export default function Page() {
                   aria-describedby={
                     errors.password ? "password-error" : undefined
                   }
-                  className={`rounded-xl border-neutral-200 focus:border-blue-600 focus:ring-blue-600 text-sm ${
-                    errors.password
-                      ? "border-red-500 focus-visible:ring-red-400"
-                      : ""
-                  }`}
+                  className={`rounded-xl border-neutral-200 focus:border-blue-600 focus:ring-blue-600 text-sm ${errors.password
+                    ? "border-red-500 focus-visible:ring-red-400"
+                    : ""
+                    }`}
                   {...register("password", {
                     required: "La contraseña es obligatoria",
                     minLength: {
@@ -219,11 +216,11 @@ export default function Page() {
                 )}
               </div>
 
-              {/* Botones de acción */}
-              <div className='flex flex-col sm:flex-row gap-3 w-full pt-2'>
+              {/* Botón de acción */}
+              <div className='w-full pt-2'>
                 <Button
                   type='submit'
-                  className='flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm transition-all duration-150 cursor-pointer h-10'
+                  className='w-full bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm transition-all duration-150 cursor-pointer h-10'
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
@@ -235,15 +232,6 @@ export default function Page() {
                     "Iniciar sesión"
                   )}
                 </Button>
-                <Link href='/' className='flex-1'>
-                  <Button
-                    type='button'
-                    variant='outline'
-                    className='w-full border-blue-200 text-blue-700 hover:bg-blue-50 hover:text-blue-800 font-bold rounded-xl transition-all duration-150 cursor-pointer h-10'
-                  >
-                    Crear cuenta
-                  </Button>
-                </Link>
               </div>
 
               {/* Label de notificación / alerta debajo de los botones de ingresar */}
