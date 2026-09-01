@@ -103,7 +103,6 @@ export default function SellerCreateOrderPage() {
                   2. Selección de Productos (Bultos)
                 </h2>
               </div>
-              {client && <AddDetailButton />}
             </div>
 
             {!client ? (

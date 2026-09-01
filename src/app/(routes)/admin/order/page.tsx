@@ -103,7 +103,7 @@ export default function AdminCreateOrderPage() {
                   2. Catálogo y Selección de Bultos
                 </h2>
               </div>
-              {client && <AddDetailButton />}
+             
             </div>
 
             {!client ? (
