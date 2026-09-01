@@ -93,7 +93,7 @@ export default function Page() {
               D
             </div>
             <span className='text-2xl font-extrabold tracking-tight text-neutral-900'>
-              Dicenca <span className='text-blue-600'>Pedidos</span>
+              Diacenca <span className='text-blue-600'>Pedidos</span>
             </span>
           </div>
 
@@ -110,7 +110,7 @@ export default function Page() {
           </div>
 
           <div className='text-xs font-semibold text-neutral-400'>
-            © {new Date().getFullYear()} Dicenca. Todos los derechos reservados.
+            © {new Date().getFullYear()} Diacenca. Todos los derechos reservados.
           </div>
         </div>
 
@@ -146,11 +146,10 @@ export default function Page() {
                   placeholder='correo@ejemplo.com'
                   aria-invalid={!!errors.email}
                   aria-describedby={errors.email ? "email-error" : undefined}
-                  className={`rounded-xl border-neutral-200 focus:border-blue-600 focus:ring-blue-600 text-sm ${
-                    errors.email
-                      ? "border-red-500 focus-visible:ring-red-400"
-                      : ""
-                  }`}
+                  className={`rounded-xl border-neutral-200 focus:border-blue-600 focus:ring-blue-600 text-sm ${errors.email
+                    ? "border-red-500 focus-visible:ring-red-400"
+                    : ""
+                    }`}
                   {...register("email", {
                     required: "El correo electrónico es obligatorio",
                     pattern: {
@@ -191,11 +190,10 @@ export default function Page() {
                   aria-describedby={
                     errors.password ? "password-error" : undefined
                   }
-                  className={`rounded-xl border-neutral-200 focus:border-blue-600 focus:ring-blue-600 text-sm ${
-                    errors.password
-                      ? "border-red-500 focus-visible:ring-red-400"
-                      : ""
-                  }`}
+                  className={`rounded-xl border-neutral-200 focus:border-blue-600 focus:ring-blue-600 text-sm ${errors.password
+                    ? "border-red-500 focus-visible:ring-red-400"
+                    : ""
+                    }`}
                   {...register("password", {
                     required: "La contraseña es obligatoria",
                     minLength: {

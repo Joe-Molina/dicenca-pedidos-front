@@ -100,7 +100,7 @@ export default function DashboardLayout({
             className='rounded-xl border border-gray-100 p-0.5 shadow-sm'
           />
           <span className='font-bold text-gray-900 text-base tracking-tight'>
-            Dicenca Pedidos
+            Diacenca Pedidos
           </span>
         </div>
 
@@ -115,11 +115,10 @@ export default function DashboardLayout({
                 key={item.name}
                 href={item.href}
                 onClick={() => setCurrent(index)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 text-sm ${
-                  isActive
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-200/50"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                }`}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 text-sm ${isActive
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-200/50"
+                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  }`}
               >
                 {getLinkIcon(item.name)}
                 <span>{item.name}</span>
@@ -162,9 +161,8 @@ export default function DashboardLayout({
                     </span>
                   </div>
                   <ChevronDown
-                    className={`size-3.5 text-gray-400 transition-transform duration-200 ${
-                      dropdownOpen ? "rotate-180" : ""
-                    }`}
+                    className={`size-3.5 text-gray-400 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""
+                      }`}
                   />
                 </button>
 
@@ -232,7 +230,7 @@ export default function DashboardLayout({
                   className='rounded-xl border border-gray-100 p-0.5'
                 />
                 <span className='font-bold text-gray-900 text-sm tracking-tight'>
-                  Dicenca
+                  Diacenca
                 </span>
               </div>
 
@@ -252,9 +250,8 @@ export default function DashboardLayout({
 
           {/* Contenido del menú móvil */}
           <div
-            className={`${
-              isOpen ? "block" : "hidden"
-            } border-t border-gray-100 bg-white shadow-inner`}
+            className={`${isOpen ? "block" : "hidden"
+              } border-t border-gray-100 bg-white shadow-inner`}
             id='mobile-menu-content'
           >
             <div className='px-4 pt-3 pb-4 space-y-1.5'>
@@ -267,11 +264,10 @@ export default function DashboardLayout({
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`${
-                      isActive
-                        ? "bg-blue-600 text-white font-semibold"
-                        : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                    } flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-150`}
+                    className={`${isActive
+                      ? "bg-blue-600 text-white font-semibold"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                      } flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-150`}
                     aria-current={isActive ? "page" : undefined}
                     onClick={() => {
                       setCurrent(index);
